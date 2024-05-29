@@ -1,0 +1,528 @@
+---
+title: "small_skew_3cat_diverg_analysis"
+output: html_document
+date: "2023-10-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Load the data 
+```{r}
+library(miceadds)
+
+#for (i in 1:50) {
+ # load(paste0("largen_skew_3cat_randompo_smalleff_none",i,".Rdata"))
+  #save(data,file = paste0("largen_sym_3cat_randompo_smalleff_none",i,".Rdata"))
+#}
+
+
+data <- do.call(rbind,lapply(paste0("largen_sym_3cat_randompo_smalleff_none",1:50,".Rdata"), load.Rdata2))
+
+attach(data)
+```
+
+## Check R-hats are all < 1.01 
+
+```{r}
+# PO model 
+summary(rhat_cumlogit_po1)
+
+# PPO model 
+summary(rhat_cumlogit_ppo1)
+summary(rhat_cumlogit_ppo2)
+
+
+# Constrained- divergent 
+summary(rhat_cumlogit_cpo1)
+summary(rhat_cumlogit_cpo2)
+
+# Constrained- linear 
+summary(rhat_cumlogit_lcpo1)
+summary(rhat_cumlogit_lcpo2)
+
+# Logistic 
+summary(rhat_cumlogit_lr1)
+summary(rhat_cumlogit_lr2)
+```
+
+## Check bulk ESS are sufficiently large (minimum 400, ideally above 1000)
+```{r}
+# PO model 
+summary(bulkess_cumlogit_po1)
+
+# PPO model 
+summary(bulkess_cumlogit_ppo1)
+summary(bulkess_cumlogit_ppo2)
+
+
+# Constrained- divergent 
+summary(bulkess_cumlogit_cpo1)
+summary(bulkess_cumlogit_cpo2)
+
+# Constrained- linear 
+summary(bulkess_cumlogit_lcpo1)
+summary(bulkess_cumlogit_lcpo2)
+
+# Logistic 
+summary(bulkess_cumlogit_lr1)
+summary(bulkess_cumlogit_lr2)
+```
+
+## Check tail ESS are sufficiently large (should be >400, ideally above 1000)
+```{r}
+# PO model 
+summary(tailess_cumlogit_po1)
+
+# PPO model 
+summary(tailess_cumlogit_ppo1)
+summary(tailess_cumlogit_ppo2)
+
+
+# Constrained- divergent 
+summary(tailess_cumlogit_cpo1)
+summary(tailess_cumlogit_cpo2)
+
+# Constrained- linear 
+summary(tailess_cumlogit_lcpo1)
+summary(tailess_cumlogit_lcpo2)
+
+# Logistic 
+summary(tailess_cumlogit_lr1)
+summary(tailess_cumlogit_lr2)
+```
+
+
+## Check that the MCSE meets upper bound of 0.01 
+```{r}
+# PO model 
+summary(mcse_cumlogit_po1)
+
+# PPO model 
+summary(mcse_cumlogit_ppo1)
+summary(mcse_cumlogit_ppo2)
+
+
+# Constrained- divergent 
+summary(mcse_cumlogit_cpo1)
+summary(mcse_cumlogit_cpo2)
+
+# Constrained- linear 
+summary(mcse_cumlogit_lcpo1)
+summary(mcse_cumlogit_lcpo2)
+
+# Logistic 
+summary(mcse_cumlogit_lr1)
+summary(mcse_cumlogit_lr2)
+```
+
+## Check reports on missing values 
+```{r}
+# PO model 
+summary(missing_po)
+
+# PPO model 
+summary(missing_ppo)
+
+# Constrained- divergent 
+summary(missing_cpo)
+
+# Constrained- linear 
+summary(missing_lcpo)
+
+# Logistic 
+summary(missing_lr1)
+summary(missing_lr2)
+```
+
+## Check number of divergent transitions - this should be kept to a minimum if any (<10)
+```{r}
+# PO model 
+summary(numdivergent_po)
+
+# PPO model 
+summary(numdivergent_ppo)
+
+# Constrained- divergent 
+summary(numdivergent_cpo)
+
+# Constrained- linear 
+summary(numdivergent_lcpo)
+
+# Logistic 
+summary(numdivergent_lr1)
+summary(numdivergent_lr2)
+```
+
+## Calculate performance measures 
+## Bias across each model and cumulative logit 
+```{r}
+#PO model 
+bias_po1 <- mean(bias_cumlogit_po1)
+bias_po2 <- mean(bias_cumlogit_po2)
+
+
+# PPO model 
+bias_ppo1 <- mean(bias_cumlogit_ppo1)
+bias_ppo2 <- mean(bias_cumlogit_ppo2)
+
+
+# Constrained - divergent 
+bias_cpo1 <- mean(bias_cumlogit_cpo1)
+bias_cpo2 <- mean(bias_cumlogit_cpo2)
+
+
+# Constrained - linear 
+bias_lcpo1 <- mean(bias_cumlogit_lcpo1)
+bias_lcpo2 <- mean(bias_cumlogit_lcpo2)
+
+
+# Logistic 
+bias_lr1 <- mean(bias_cumlogit_lr1)
+bias_lr2 <- mean(bias_cumlogit_lr2)
+```
+
+## Coverage across each model and cumulative logit 
+```{r}
+#PO model 
+cv_po1 <- mean(cv_cumlogit_po1)
+cv_po2 <- mean(cv_cumlogit_po2)
+
+
+# PPO model 
+cv_ppo1 <- mean(cv_cumlogit_ppo1)
+cv_ppo2 <- mean(cv_cumlogit_ppo2)
+
+
+# Constrained - divergent 
+cv_cpo1 <- mean(cv_cumlogit_cpo1)
+cv_cpo2 <- mean(cv_cumlogit_cpo2)
+
+
+# Constrained - linear 
+cv_lcpo1 <- mean(cv_cumlogit_lcpo1)
+cv_lcpo2 <- mean(cv_cumlogit_lcpo2)
+
+
+# Logistic 
+cv_lr1 <- mean(cv_cumlogit_lr1)
+cv_lr2 <- mean(cv_cumlogit_lr2)
+```
+
+
+## MSE across each model and cumulative logit 
+```{r}
+#PO model 
+mse_po1 <- mean(mse_cumlogit_po1)
+mse_po2 <- mean(mse_cumlogit_po2)
+
+
+# PPO model 
+mse_ppo1 <- mean(mse_cumlogit_ppo1)
+mse_ppo2 <- mean(mse_cumlogit_ppo2)
+
+
+# Constrained - divergent 
+mse_cpo1 <- mean(mse_cumlogit_cpo1)
+mse_cpo2 <- mean(mse_cumlogit_cpo2)
+
+
+# Constrained - linear 
+mse_lcpo1 <- mean(mse_cumlogit_lcpo1)
+mse_lcpo2 <- mean(mse_cumlogit_lcpo2)
+
+
+# Logistic 
+mse_lr1 <- mean(mse_cumlogit_lr1)
+mse_lr2 <- mean(mse_cumlogit_lr2)
+```
+
+
+## Compute jackknife-after-bootstrap Monte Carlo standard error estimation - BIAS 
+## These should be <0.05, otherwise increase n_sim 
+```{r}
+nsim <- 1000
+
+MC_YMinusi_bias1_po <- MC_YMinusi_bias2_po <- MC_YMinusi_bias1_ppo <- MC_YMinusi_bias2_ppo <- MC_YMinusi_bias1_cpo <- MC_YMinusi_bias2_cpo <- MC_YMinusi_bias1_lcpo <- MC_YMinusi_bias2_lcpo <- MC_YMinusi_bias1_lr <- MC_YMinusi_bias2_lr <- numeric(nsim)
+
+for(i in 1:nsim){
+  MC_YMinusi_bias1_po[i] = sum(bias_cumlogit_po1[-i])/(nsim-1)
+  MC_YMinusi_bias2_po[i] = sum(bias_cumlogit_po2[-i])/(nsim-1)
+
+  MC_YMinusi_bias1_ppo[i] = sum(bias_cumlogit_ppo1[-i])/(nsim-1)
+  MC_YMinusi_bias2_ppo[i] = sum(bias_cumlogit_ppo2[-i])/(nsim-1)
+  
+  MC_YMinusi_bias1_cpo[i] = sum(bias_cumlogit_cpo1[-i])/(nsim-1)
+  MC_YMinusi_bias2_cpo[i] = sum(bias_cumlogit_cpo2[-i])/(nsim-1)
+  
+  MC_YMinusi_bias1_lcpo[i] = sum(bias_cumlogit_lcpo1[-i])/(nsim-1)
+  MC_YMinusi_bias2_lcpo[i] = sum(bias_cumlogit_lcpo2[-i])/(nsim-1)
+
+  MC_YMinusi_bias1_lr[i] = sum(bias_cumlogit_lr1[-i])/(nsim-1)
+  MC_YMinusi_bias2_lr[i] = sum(bias_cumlogit_lr2[-i])/(nsim-1)  
+}
+
+bar_MC_YMinusi_bias1_po = sum(MC_YMinusi_bias1_po)/nsim
+bar_MC_YMinusi_bias2_po = sum(MC_YMinusi_bias2_po)/nsim
+
+bar_MC_YMinusi_bias1_ppo = sum(MC_YMinusi_bias1_ppo)/nsim
+bar_MC_YMinusi_bias2_ppo = sum(MC_YMinusi_bias2_ppo)/nsim
+
+bar_MC_YMinusi_bias1_cpo = sum(MC_YMinusi_bias1_cpo)/nsim
+bar_MC_YMinusi_bias2_cpo = sum(MC_YMinusi_bias2_cpo)/nsim
+
+bar_MC_YMinusi_bias1_lcpo = sum(MC_YMinusi_bias1_lcpo)/nsim
+bar_MC_YMinusi_bias2_lcpo = sum(MC_YMinusi_bias2_lcpo)/nsim
+
+bar_MC_YMinusi_bias1_lr = sum(MC_YMinusi_bias1_lr)/nsim
+bar_MC_YMinusi_bias2_lr = sum(MC_YMinusi_bias2_lr)/nsim
+
+MCE_JK_bias1_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_po-bar_MC_YMinusi_bias1_po)^2))
+MCE_JK_bias2_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_po-bar_MC_YMinusi_bias2_po)^2))
+
+MCE_JK_bias1_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_ppo-bar_MC_YMinusi_bias1_ppo)^2))
+MCE_JK_bias2_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_ppo-bar_MC_YMinusi_bias2_ppo)^2))
+
+MCE_JK_bias1_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_cpo-bar_MC_YMinusi_bias1_cpo)^2))
+MCE_JK_bias2_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_cpo-bar_MC_YMinusi_bias2_cpo)^2))
+
+MCE_JK_bias1_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_lcpo-bar_MC_YMinusi_bias1_lcpo)^2))
+MCE_JK_bias2_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_lcpo-bar_MC_YMinusi_bias2_lcpo)^2))
+
+MCE_JK_bias1_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_lr-bar_MC_YMinusi_bias1_lr)^2))
+MCE_JK_bias2_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_lr-bar_MC_YMinusi_bias2_lr)^2))
+```
+
+## Compute jackknife-after-bootstrap Monte Carlo standard error estimation - COVERAGE 
+```{r}
+MC_YMinusi_cv1_po <- MC_YMinusi_cv2_po <- MC_YMinusi_cv1_ppo <- MC_YMinusi_cv2_ppo <- MC_YMinusi_cv1_cpo <- MC_YMinusi_cv2_cpo <- MC_YMinusi_cv1_lcpo <- MC_YMinusi_cv2_lcpo <- MC_YMinusi_cv1_lr <- MC_YMinusi_cv2_lr <- numeric(nsim)
+
+for(i in 1:nsim){
+  MC_YMinusi_cv1_po[i] = sum(cv_cumlogit_po1[-i])/(nsim-1)
+  MC_YMinusi_cv2_po[i] = sum(cv_cumlogit_po2[-i])/(nsim-1)
+
+  MC_YMinusi_cv1_ppo[i] = sum(cv_cumlogit_ppo1[-i])/(nsim-1)
+  MC_YMinusi_cv2_ppo[i] = sum(cv_cumlogit_ppo2[-i])/(nsim-1)
+  
+  MC_YMinusi_cv1_cpo[i] = sum(cv_cumlogit_cpo1[-i])/(nsim-1)
+  MC_YMinusi_cv2_cpo[i] = sum(cv_cumlogit_cpo2[-i])/(nsim-1)
+  
+  MC_YMinusi_cv1_lcpo[i] = sum(cv_cumlogit_lcpo1[-i])/(nsim-1)
+  MC_YMinusi_cv2_lcpo[i] = sum(cv_cumlogit_lcpo2[-i])/(nsim-1)
+
+  MC_YMinusi_cv1_lr[i] = sum(cv_cumlogit_lr1[-i])/(nsim-1)
+  MC_YMinusi_cv2_lr[i] = sum(cv_cumlogit_lr2[-i])/(nsim-1)  
+}
+
+bar_MC_YMinusi_cv1_po = sum(MC_YMinusi_cv1_po)/nsim
+bar_MC_YMinusi_cv2_po = sum(MC_YMinusi_cv2_po)/nsim
+
+bar_MC_YMinusi_cv1_ppo = sum(MC_YMinusi_cv1_ppo)/nsim
+bar_MC_YMinusi_cv2_ppo = sum(MC_YMinusi_cv2_ppo)/nsim
+
+bar_MC_YMinusi_cv1_cpo = sum(MC_YMinusi_cv1_cpo)/nsim
+bar_MC_YMinusi_cv2_cpo = sum(MC_YMinusi_cv2_cpo)/nsim
+
+bar_MC_YMinusi_cv1_lcpo = sum(MC_YMinusi_cv1_lcpo)/nsim
+bar_MC_YMinusi_cv2_lcpo = sum(MC_YMinusi_cv2_lcpo)/nsim
+
+bar_MC_YMinusi_cv1_lr = sum(MC_YMinusi_cv1_lr)/nsim
+bar_MC_YMinusi_cv2_lr = sum(MC_YMinusi_cv2_lr)/nsim
+
+MCE_JK_cv1_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_po-bar_MC_YMinusi_cv1_po)^2))
+MCE_JK_cv2_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_po-bar_MC_YMinusi_cv2_po)^2))
+
+MCE_JK_cv1_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_ppo-bar_MC_YMinusi_cv1_ppo)^2))
+MCE_JK_cv2_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_ppo-bar_MC_YMinusi_cv2_ppo)^2))
+
+MCE_JK_cv1_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_cpo-bar_MC_YMinusi_cv1_cpo)^2))
+MCE_JK_cv2_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_cpo-bar_MC_YMinusi_cv2_cpo)^2))
+
+MCE_JK_cv1_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_lcpo-bar_MC_YMinusi_cv1_lcpo)^2))
+MCE_JK_cv2_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_lcpo-bar_MC_YMinusi_cv2_lcpo)^2))
+
+MCE_JK_cv1_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_lr-bar_MC_YMinusi_cv1_lr)^2))
+MCE_JK_cv2_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_lr-bar_MC_YMinusi_cv2_lr)^2))
+```
+
+## Compute jackknife-after-bootstrap Monte Carlo standard error estimation - MSE 
+```{r}
+MC_YMinusi_mse1_po <- MC_YMinusi_mse2_po <- MC_YMinusi_mse1_ppo <- MC_YMinusi_mse2_ppo <- MC_YMinusi_mse1_cpo <- MC_YMinusi_mse2_cpo <- MC_YMinusi_mse1_lcpo <- MC_YMinusi_mse2_lcpo <- MC_YMinusi_mse1_lr <- MC_YMinusi_mse2_lr <- numeric(nsim)
+
+for(i in 1:nsim){
+  MC_YMinusi_mse1_po[i] = sum(mse_cumlogit_po1[-i])/(nsim-1)
+  MC_YMinusi_mse2_po[i] = sum(mse_cumlogit_po2[-i])/(nsim-1)
+
+  MC_YMinusi_mse1_ppo[i] = sum(mse_cumlogit_ppo1[-i])/(nsim-1)
+  MC_YMinusi_mse2_ppo[i] = sum(mse_cumlogit_ppo2[-i])/(nsim-1)
+  
+  MC_YMinusi_mse1_cpo[i] = sum(mse_cumlogit_cpo1[-i])/(nsim-1)
+  MC_YMinusi_mse2_cpo[i] = sum(mse_cumlogit_cpo2[-i])/(nsim-1)
+  
+  MC_YMinusi_mse1_lcpo[i] = sum(mse_cumlogit_lcpo1[-i])/(nsim-1)
+  MC_YMinusi_mse2_lcpo[i] = sum(mse_cumlogit_lcpo2[-i])/(nsim-1)
+
+  MC_YMinusi_mse1_lr[i] = sum(mse_cumlogit_lr1[-i])/(nsim-1)
+  MC_YMinusi_mse2_lr[i] = sum(mse_cumlogit_lr2[-i])/(nsim-1)  
+}
+
+bar_MC_YMinusi_mse1_po = sum(MC_YMinusi_mse1_po)/nsim
+bar_MC_YMinusi_mse2_po = sum(MC_YMinusi_mse2_po)/nsim
+
+bar_MC_YMinusi_mse1_ppo = sum(MC_YMinusi_mse1_ppo)/nsim
+bar_MC_YMinusi_mse2_ppo = sum(MC_YMinusi_mse2_ppo)/nsim
+
+bar_MC_YMinusi_mse1_cpo = sum(MC_YMinusi_mse1_cpo)/nsim
+bar_MC_YMinusi_mse2_cpo = sum(MC_YMinusi_mse2_cpo)/nsim
+
+bar_MC_YMinusi_mse1_lcpo = sum(MC_YMinusi_mse1_lcpo)/nsim
+bar_MC_YMinusi_mse2_lcpo = sum(MC_YMinusi_mse2_lcpo)/nsim
+
+bar_MC_YMinusi_mse1_lr = sum(MC_YMinusi_mse1_lr)/nsim
+bar_MC_YMinusi_mse2_lr = sum(MC_YMinusi_mse2_lr)/nsim
+
+MCE_JK_mse1_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_po-bar_MC_YMinusi_mse1_po)^2))
+MCE_JK_mse2_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_po-bar_MC_YMinusi_mse2_po)^2))
+
+MCE_JK_mse1_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_ppo-bar_MC_YMinusi_mse1_ppo)^2))
+MCE_JK_mse2_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_ppo-bar_MC_YMinusi_mse2_ppo)^2))
+
+MCE_JK_mse1_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_cpo-bar_MC_YMinusi_mse1_cpo)^2))
+MCE_JK_mse2_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_cpo-bar_MC_YMinusi_mse2_cpo)^2))
+
+MCE_JK_mse1_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_lcpo-bar_MC_YMinusi_mse1_lcpo)^2))
+MCE_JK_mse2_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_lcpo-bar_MC_YMinusi_mse2_lcpo)^2))
+
+MCE_JK_mse1_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_lr-bar_MC_YMinusi_mse1_lr)^2))
+MCE_JK_mse2_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_lr-bar_MC_YMinusi_mse2_lr)^2))
+```
+
+
+## Relative bias across each model and cumulative logit 
+```{r}
+#PO model 
+relbias_po1 <- (exp(bias_po1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po2 <- (exp(bias_po2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+# PPO model 
+relbias_ppo1 <- (exp(bias_ppo1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo2 <- (exp(bias_ppo2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+
+# Constrained - divergent 
+relbias_cpo1 <- (exp(bias_cpo1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo2 <- (exp(bias_cpo2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+
+# Constrained - linear 
+relbias_lcpo1 <- (exp(bias_lcpo1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo2 <- (exp(bias_lcpo2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+# Logistic 
+relbias_lr1 <- (exp(bias_lr1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr2 <- (exp(bias_lr2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+```
+
+
+## Compute jackknife-after-bootstrap Monte Carlo standard error estimation -  RELATIVE BIAS 
+## These should be <0.05, otherwise increase n_sim 
+```{r}
+nsim <- 1000
+
+MC_YMinusi_relbias1_po <- MC_YMinusi_relbias2_po <- MC_YMinusi_relbias1_ppo <- MC_YMinusi_relbias2_ppo <- MC_YMinusi_relbias1_cpo <- MC_YMinusi_relbias2_cpo <- MC_YMinusi_relbias1_lcpo <- MC_YMinusi_relbias2_lcpo <- MC_YMinusi_relbias1_lr <- MC_YMinusi_relbias2_lr <- numeric(nsim)
+
+for(i in 1:nsim){
+  MC_YMinusi_relbias1_po[i] = (exp(sum(bias_cumlogit_po1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_po[i] = (exp(sum(bias_cumlogit_po2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+  MC_YMinusi_relbias1_ppo[i] = (exp(sum(bias_cumlogit_ppo1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_ppo[i] = (exp(sum(bias_cumlogit_ppo2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+  
+  MC_YMinusi_relbias1_cpo[i] = (exp(sum(bias_cumlogit_cpo1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_cpo[i] = (exp(sum(bias_cumlogit_cpo2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+  
+  MC_YMinusi_relbias1_lcpo[i] = (exp(sum(bias_cumlogit_lcpo1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_lcpo[i] = (exp(sum(bias_cumlogit_lcpo2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+  MC_YMinusi_relbias1_lr[i] = (exp(sum(bias_cumlogit_lr1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_lr[i] = (exp(sum(bias_cumlogit_lr2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+}
+
+bar_MC_YMinusi_relbias1_po = sum(MC_YMinusi_relbias1_po)/nsim
+bar_MC_YMinusi_relbias2_po = sum(MC_YMinusi_relbias2_po)/nsim
+
+bar_MC_YMinusi_relbias1_ppo = sum(MC_YMinusi_relbias1_ppo)/nsim
+bar_MC_YMinusi_relbias2_ppo = sum(MC_YMinusi_relbias2_ppo)/nsim
+
+bar_MC_YMinusi_relbias1_cpo = sum(MC_YMinusi_relbias1_cpo)/nsim
+bar_MC_YMinusi_relbias2_cpo = sum(MC_YMinusi_relbias2_cpo)/nsim
+
+
+bar_MC_YMinusi_relbias1_lcpo = sum(MC_YMinusi_relbias1_lcpo)/nsim
+bar_MC_YMinusi_relbias2_lcpo = sum(MC_YMinusi_relbias2_lcpo)/nsim
+
+bar_MC_YMinusi_relbias1_lr = sum(MC_YMinusi_relbias1_lr)/nsim
+bar_MC_YMinusi_relbias2_lr = sum(MC_YMinusi_relbias2_lr)/nsim
+
+MCE_JK_relbias1_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_po-bar_MC_YMinusi_relbias1_po)^2))
+MCE_JK_relbias2_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_po-bar_MC_YMinusi_relbias2_po)^2))
+
+MCE_JK_relbias1_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_ppo-bar_MC_YMinusi_relbias1_ppo)^2))
+MCE_JK_relbias2_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_ppo-bar_MC_YMinusi_relbias2_ppo)^2))
+
+MCE_JK_relbias1_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_cpo-bar_MC_YMinusi_relbias1_cpo)^2))
+MCE_JK_relbias2_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_cpo-bar_MC_YMinusi_relbias2_cpo)^2))
+
+MCE_JK_relbias1_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_lcpo-bar_MC_YMinusi_relbias1_lcpo)^2))
+MCE_JK_relbias2_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_lcpo-bar_MC_YMinusi_relbias2_lcpo)^2))
+
+MCE_JK_relbias1_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_lr-bar_MC_YMinusi_relbias1_lr)^2))
+MCE_JK_relbias2_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_lr-bar_MC_YMinusi_relbias2_lr)^2))
+
+```
+
+## Generate data frame - bias, SE, coverage, SE, MSE, SE, model, cum logit  
+```{r}
+bias <- c(bias_po1,bias_po2,bias_ppo1,bias_ppo2,bias_cpo1,bias_cpo2,bias_lcpo1,bias_lcpo2,bias_lr1, bias_lr2)
+bias_se <- c(MCE_JK_bias1_po,MCE_JK_bias2_po,MCE_JK_bias1_ppo,MCE_JK_bias2_ppo,MCE_JK_bias1_cpo,MCE_JK_bias2_cpo,MCE_JK_bias1_lcpo,MCE_JK_bias2_lcpo,MCE_JK_bias1_lr,MCE_JK_bias2_lr)
+
+coverage <- c(cv_po1, cv_po2, cv_ppo1, cv_ppo2, cv_cpo1, cv_cpo2, cv_lcpo1, cv_lcpo2, cv_lr1, cv_lr2)
+coverage_se <- c(MCE_JK_cv1_po,MCE_JK_cv2_po,MCE_JK_cv1_ppo,MCE_JK_cv2_ppo,MCE_JK_cv1_cpo,MCE_JK_cv2_cpo,MCE_JK_cv1_lcpo,MCE_JK_cv2_lcpo,MCE_JK_cv1_lr,MCE_JK_cv2_lr)
+
+mse <- c(mse_po1, mse_po2, mse_ppo1, mse_ppo2, mse_cpo1, mse_cpo2, mse_lcpo1, mse_lcpo2, mse_lr1, mse_lr2)
+mse_se <- c(MCE_JK_mse1_po,MCE_JK_mse2_po,MCE_JK_mse1_ppo,MCE_JK_mse2_ppo,MCE_JK_mse1_cpo,MCE_JK_mse2_cpo,MCE_JK_mse1_lcpo,MCE_JK_mse2_lcpo,MCE_JK_mse1_lr,MCE_JK_mse2_lr)
+
+cumlogit <- rep(1:2,5)
+
+model <- c(rep("PO",2),rep("PPO",2),rep("CPO",2),rep("LCPO",2),rep("LR",2))
+
+category <- rep(3,10)
+
+effectsize <- rep("Small [1.10]", 10)
+
+truemod <- rep("Random PO [no violation]", 10)
+
+controlprob <- rep("Symmetric", 10)
+
+sampsize <- rep(4000, 10)
+
+
+relbias <- c(relbias_po1,relbias_po2,relbias_ppo1,relbias_ppo2,relbias_cpo1,relbias_cpo2,relbias_lcpo1,relbias_lcpo2,relbias_lr1, relbias_lr2)
+
+relbias_se <- c(MCE_JK_relbias1_po,MCE_JK_relbias2_po,MCE_JK_relbias1_ppo,MCE_JK_relbias2_ppo,MCE_JK_relbias1_cpo,MCE_JK_relbias2_cpo,MCE_JK_relbias1_lcpo,MCE_JK_relbias2_lcpo,MCE_JK_relbias1_lr,MCE_JK_relbias2_lr)
+
+results <- data.frame(bias = bias, bias_se = bias_se, relbias = relbias, relbias_se = relbias_se, coverage = coverage, coverage_se = coverage_se, mse = mse, mse_se = mse_se, cumlogit = cumlogit, model = model, category = category, effectsize = effectsize, truemod = truemod, controlprob = controlprob, sampsize = sampsize)
+
+save(results, file = "largen_sym_3cat_randompo_smalleff_none_results.Rdata")
+write.csv(results,file="G:/BACKUP/Chris/Project_2/Main_Simulations/Results/results_70.csv")
+
+```

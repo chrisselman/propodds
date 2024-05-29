@@ -1,0 +1,1351 @@
+---
+title: "small_skew_3cat_diverg_analysis"
+output: html_document
+date: "2023-10-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Load the data 
+```{r}
+library(miceadds)
+data <- do.call(rbind,lapply(paste0("largen_sym_11cat_randompo_smalleff_none",c(1:50),".Rdata"), load.Rdata2))
+
+attach(data)
+```
+
+## Check R-hats are all < 1.01 
+
+```{r}
+# PO model 
+summary(rhat_cumlogit_po1)
+
+# PPO model 
+summary(rhat_cumlogit_ppo1)
+summary(rhat_cumlogit_ppo2)
+summary(rhat_cumlogit_ppo3)
+summary(rhat_cumlogit_ppo4)
+summary(rhat_cumlogit_ppo5)
+summary(rhat_cumlogit_ppo6)
+summary(rhat_cumlogit_ppo7)
+summary(rhat_cumlogit_ppo8)
+summary(rhat_cumlogit_ppo9)
+summary(rhat_cumlogit_ppo10)
+
+# Constrained- divergent 
+summary(rhat_cumlogit_cpo1)
+summary(rhat_cumlogit_cpo2)
+summary(rhat_cumlogit_cpo3)
+summary(rhat_cumlogit_cpo4)
+summary(rhat_cumlogit_cpo5)
+summary(rhat_cumlogit_cpo6)
+summary(rhat_cumlogit_cpo7)
+summary(rhat_cumlogit_cpo8)
+summary(rhat_cumlogit_cpo9)
+summary(rhat_cumlogit_cpo10)
+
+# Constrained- linear 
+summary(rhat_cumlogit_lcpo1)
+summary(rhat_cumlogit_lcpo2)
+summary(rhat_cumlogit_lcpo3)
+summary(rhat_cumlogit_lcpo4)
+summary(rhat_cumlogit_lcpo5)
+summary(rhat_cumlogit_lcpo6)
+summary(rhat_cumlogit_lcpo7)
+summary(rhat_cumlogit_lcpo8)
+summary(rhat_cumlogit_lcpo9)
+summary(rhat_cumlogit_lcpo10)
+
+# Logistic 
+summary(rhat_cumlogit_lr1)
+summary(rhat_cumlogit_lr2)
+summary(rhat_cumlogit_lr3)
+summary(rhat_cumlogit_lr4)
+summary(rhat_cumlogit_lr5)
+summary(rhat_cumlogit_lr6)
+summary(rhat_cumlogit_lr7)
+summary(rhat_cumlogit_lr8)
+summary(rhat_cumlogit_lr9)
+summary(rhat_cumlogit_lr10)
+
+```
+
+## Check bulk ESS are sufficiently large (minimum 400, ideally above 1000)
+```{r}
+# PO model 
+summary(bulkess_cumlogit_po1)
+
+# PPO model 
+summary(bulkess_cumlogit_ppo1)
+summary(bulkess_cumlogit_ppo2)
+summary(bulkess_cumlogit_ppo3)
+summary(bulkess_cumlogit_ppo4)
+summary(bulkess_cumlogit_ppo5)
+summary(bulkess_cumlogit_ppo6)
+summary(bulkess_cumlogit_ppo7)
+summary(bulkess_cumlogit_ppo8)
+summary(bulkess_cumlogit_ppo9)
+summary(bulkess_cumlogit_ppo10)
+
+
+# Constrained- divergent 
+summary(bulkess_cumlogit_cpo1)
+summary(bulkess_cumlogit_cpo2)
+summary(bulkess_cumlogit_cpo3)
+summary(bulkess_cumlogit_cpo4)
+summary(bulkess_cumlogit_cpo5)
+summary(bulkess_cumlogit_cpo6)
+summary(bulkess_cumlogit_cpo7)
+summary(bulkess_cumlogit_cpo8)
+summary(bulkess_cumlogit_cpo9)
+summary(bulkess_cumlogit_cpo10)
+
+# Constrained- linear 
+summary(bulkess_cumlogit_lcpo1)
+summary(bulkess_cumlogit_lcpo2)
+summary(bulkess_cumlogit_lcpo3)
+summary(bulkess_cumlogit_lcpo4)
+summary(bulkess_cumlogit_lcpo5)
+summary(bulkess_cumlogit_lcpo6)
+summary(bulkess_cumlogit_lcpo7)
+summary(bulkess_cumlogit_lcpo8)
+summary(bulkess_cumlogit_lcpo9)
+summary(bulkess_cumlogit_lcpo10)
+
+
+# Logistic 
+summary(bulkess_cumlogit_lr1)
+summary(bulkess_cumlogit_lr2)
+summary(bulkess_cumlogit_lr3)
+summary(bulkess_cumlogit_lr4)
+summary(bulkess_cumlogit_lr5)
+summary(bulkess_cumlogit_lr6)
+summary(bulkess_cumlogit_lr7)
+summary(bulkess_cumlogit_lr8)
+summary(bulkess_cumlogit_lr9)
+summary(bulkess_cumlogit_lr10)
+
+
+```
+
+## Check tail ESS are sufficiently large (should be >400, ideally above 1000)
+```{r}
+# PO model 
+summary(tailess_cumlogit_po1)
+
+# PPO model 
+summary(tailess_cumlogit_ppo1)
+summary(tailess_cumlogit_ppo2)
+summary(tailess_cumlogit_ppo3)
+summary(tailess_cumlogit_ppo4)
+summary(tailess_cumlogit_ppo5)
+summary(tailess_cumlogit_ppo6)
+summary(tailess_cumlogit_ppo7)
+summary(tailess_cumlogit_ppo8)
+summary(tailess_cumlogit_ppo9)
+summary(tailess_cumlogit_ppo10)
+
+
+
+# Constrained- divergent 
+summary(tailess_cumlogit_cpo1)
+summary(tailess_cumlogit_cpo2)
+summary(tailess_cumlogit_cpo3)
+summary(tailess_cumlogit_cpo4)
+summary(tailess_cumlogit_cpo5)
+summary(tailess_cumlogit_cpo6)
+summary(tailess_cumlogit_cpo7)
+summary(tailess_cumlogit_cpo8)
+summary(tailess_cumlogit_cpo9)
+summary(tailess_cumlogit_cpo10)
+
+
+# Constrained- linear 
+summary(tailess_cumlogit_lcpo1)
+summary(tailess_cumlogit_lcpo2)
+summary(tailess_cumlogit_lcpo3)
+summary(tailess_cumlogit_lcpo4)
+summary(tailess_cumlogit_lcpo5)
+summary(tailess_cumlogit_lcpo6)
+summary(tailess_cumlogit_lcpo7)
+summary(tailess_cumlogit_lcpo8)
+summary(tailess_cumlogit_lcpo9)
+summary(tailess_cumlogit_lcpo10)
+
+
+# Logistic 
+summary(tailess_cumlogit_lr1)
+summary(tailess_cumlogit_lr2)
+summary(tailess_cumlogit_lr3)
+summary(tailess_cumlogit_lr4)
+summary(tailess_cumlogit_lr5)
+summary(tailess_cumlogit_lr6)
+summary(tailess_cumlogit_lr7)
+summary(tailess_cumlogit_lr8)
+summary(tailess_cumlogit_lr9)
+summary(tailess_cumlogit_lr10)
+
+
+```
+
+
+## Check that the MCSE meets upper bound of 0.01 
+```{r}
+# PO model 
+summary(mcse_cumlogit_po1)
+
+# PPO model 
+summary(mcse_cumlogit_ppo1)
+summary(mcse_cumlogit_ppo2)
+summary(mcse_cumlogit_ppo3)
+summary(mcse_cumlogit_ppo4)
+summary(mcse_cumlogit_ppo5)
+summary(mcse_cumlogit_ppo6)
+summary(mcse_cumlogit_ppo7)
+summary(mcse_cumlogit_ppo8)
+summary(mcse_cumlogit_ppo9)
+summary(mcse_cumlogit_ppo10)
+
+
+
+# Constrained- divergent 
+summary(mcse_cumlogit_cpo1)
+summary(mcse_cumlogit_cpo2)
+summary(mcse_cumlogit_cpo3)
+summary(mcse_cumlogit_cpo4)
+summary(mcse_cumlogit_cpo5)
+summary(mcse_cumlogit_cpo6)
+summary(mcse_cumlogit_cpo7)
+summary(mcse_cumlogit_cpo8)
+summary(mcse_cumlogit_cpo9)
+summary(mcse_cumlogit_cpo10)
+
+
+# Constrained- linear 
+summary(mcse_cumlogit_lcpo1)
+summary(mcse_cumlogit_lcpo2)
+summary(mcse_cumlogit_lcpo3)
+summary(mcse_cumlogit_lcpo4)
+summary(mcse_cumlogit_lcpo5)
+summary(mcse_cumlogit_lcpo6)
+summary(mcse_cumlogit_lcpo7)
+summary(mcse_cumlogit_lcpo8)
+summary(mcse_cumlogit_lcpo9)
+summary(mcse_cumlogit_lcpo10)
+
+
+# Logistic 
+summary(mcse_cumlogit_lr1)
+summary(mcse_cumlogit_lr2)
+summary(mcse_cumlogit_lr3)
+summary(mcse_cumlogit_lr4)
+summary(mcse_cumlogit_lr5)
+summary(mcse_cumlogit_lr6)
+summary(mcse_cumlogit_lr7)
+summary(mcse_cumlogit_lr8)
+summary(mcse_cumlogit_lr9)
+summary(mcse_cumlogit_lr10)
+
+
+```
+
+## Check reports on missing values 
+```{r}
+# PO model 
+summary(missing_po)
+
+# PPO model 
+summary(missing_ppo)
+
+# Constrained- divergent 
+summary(missing_cpo)
+
+# Constrained- linear 
+summary(missing_lcpo)
+
+# Logistic 
+summary(missing_lr1)
+summary(missing_lr2)
+summary(missing_lr3)
+summary(missing_lr4)
+summary(missing_lr5)
+summary(missing_lr6)
+summary(missing_lr7)
+summary(missing_lr8)
+summary(missing_lr9)
+summary(missing_lr10)
+
+
+```
+
+## Check number of divergent transitions - this should be kept to a minimum if any (<10)
+```{r}
+# PO model 
+summary(numdivergent_po)
+
+# PPO model 
+summary(numdivergent_ppo)
+
+# Constrained- divergent 
+summary(numdivergent_cpo)
+
+# Constrained- linear 
+summary(numdivergent_lcpo)
+
+# Logistic 
+summary(numdivergent_lr1)
+summary(numdivergent_lr2)
+summary(numdivergent_lr3)
+summary(numdivergent_lr4)
+summary(numdivergent_lr5)
+summary(numdivergent_lr6)
+summary(numdivergent_lr7)
+summary(numdivergent_lr8)
+summary(numdivergent_lr9)
+summary(numdivergent_lr10)
+
+```
+
+## Calculate performance measures 
+## Bias across each model and cumulative logit 
+```{r}
+#PO model 
+bias_po1 <- mean(bias_cumlogit_po1)
+bias_po2 <- mean(bias_cumlogit_po2)
+bias_po3 <- mean(bias_cumlogit_po3)
+bias_po4 <- mean(bias_cumlogit_po4)
+bias_po5 <- mean(bias_cumlogit_po5)
+bias_po6 <- mean(bias_cumlogit_po6)
+bias_po7 <- mean(bias_cumlogit_po7)
+bias_po8 <- mean(bias_cumlogit_po8)
+bias_po9 <- mean(bias_cumlogit_po9)
+bias_po10 <- mean(bias_cumlogit_po10)
+
+
+# PPO model 
+bias_ppo1 <- mean(bias_cumlogit_ppo1)
+bias_ppo2 <- mean(bias_cumlogit_ppo2)
+bias_ppo3 <- mean(bias_cumlogit_ppo3)
+bias_ppo4 <- mean(bias_cumlogit_ppo4)
+bias_ppo5 <- mean(bias_cumlogit_ppo5)
+bias_ppo6 <- mean(bias_cumlogit_ppo6)
+bias_ppo7 <- mean(bias_cumlogit_ppo7)
+bias_ppo8 <- mean(bias_cumlogit_ppo8)
+bias_ppo9 <- mean(bias_cumlogit_ppo9)
+bias_ppo10 <- mean(bias_cumlogit_ppo10)
+
+
+
+# Constrained - divergent 
+bias_cpo1 <- mean(bias_cumlogit_cpo1)
+bias_cpo2 <- mean(bias_cumlogit_cpo2)
+bias_cpo3 <- mean(bias_cumlogit_cpo3)
+bias_cpo4 <- mean(bias_cumlogit_cpo4)
+bias_cpo5 <- mean(bias_cumlogit_cpo5)
+bias_cpo6 <- mean(bias_cumlogit_cpo6)
+bias_cpo7 <- mean(bias_cumlogit_cpo7)
+bias_cpo8 <- mean(bias_cumlogit_cpo8)
+bias_cpo9 <- mean(bias_cumlogit_cpo9)
+bias_cpo10 <- mean(bias_cumlogit_cpo10)
+
+
+# Constrained - linear 
+bias_lcpo1 <- mean(bias_cumlogit_lcpo1)
+bias_lcpo2 <- mean(bias_cumlogit_lcpo2)
+bias_lcpo3 <- mean(bias_cumlogit_lcpo3)
+bias_lcpo4 <- mean(bias_cumlogit_lcpo4)
+bias_lcpo5 <- mean(bias_cumlogit_lcpo5)
+bias_lcpo6 <- mean(bias_cumlogit_lcpo6)
+bias_lcpo7 <- mean(bias_cumlogit_lcpo7)
+bias_lcpo8 <- mean(bias_cumlogit_lcpo8)
+bias_lcpo9 <- mean(bias_cumlogit_lcpo9)
+bias_lcpo10 <- mean(bias_cumlogit_lcpo10)
+
+
+# Logistic 
+bias_lr1 <- mean(bias_cumlogit_lr1)
+bias_lr2 <- mean(bias_cumlogit_lr2)
+bias_lr3 <- mean(bias_cumlogit_lr3)
+bias_lr4 <- mean(bias_cumlogit_lr4)
+bias_lr5 <- mean(bias_cumlogit_lr5)
+bias_lr6 <- mean(bias_cumlogit_lr6)
+bias_lr7 <- mean(bias_cumlogit_lr7)
+bias_lr8 <- mean(bias_cumlogit_lr8)
+bias_lr9 <- mean(bias_cumlogit_lr9)
+bias_lr10 <- mean(bias_cumlogit_lr10)
+
+```
+
+## Coverage across each model and cumulative logit 
+```{r}
+#PO model 
+cv_po1 <- mean(cv_cumlogit_po1)
+cv_po2 <- mean(cv_cumlogit_po2)
+cv_po3 <- mean(cv_cumlogit_po3)
+cv_po4 <- mean(cv_cumlogit_po4)
+cv_po5 <- mean(cv_cumlogit_po5)
+cv_po6 <- mean(cv_cumlogit_po6)
+cv_po7 <- mean(cv_cumlogit_po7)
+cv_po8 <- mean(cv_cumlogit_po8)
+cv_po9 <- mean(cv_cumlogit_po9)
+cv_po10 <- mean(cv_cumlogit_po10)
+
+
+# PPO model 
+cv_ppo1 <- mean(cv_cumlogit_ppo1)
+cv_ppo2 <- mean(cv_cumlogit_ppo2)
+cv_ppo3 <- mean(cv_cumlogit_ppo3)
+cv_ppo4 <- mean(cv_cumlogit_ppo4)
+cv_ppo5 <- mean(cv_cumlogit_ppo5)
+cv_ppo6 <- mean(cv_cumlogit_ppo6)
+cv_ppo7 <- mean(cv_cumlogit_ppo7)
+cv_ppo8 <- mean(cv_cumlogit_ppo8)
+cv_ppo9 <- mean(cv_cumlogit_ppo9)
+cv_ppo10 <- mean(cv_cumlogit_ppo10)
+
+
+# Constrained - divergent 
+cv_cpo1 <- mean(cv_cumlogit_cpo1)
+cv_cpo2 <- mean(cv_cumlogit_cpo2)
+cv_cpo3 <- mean(cv_cumlogit_cpo3)
+cv_cpo4 <- mean(cv_cumlogit_cpo4)
+cv_cpo5 <- mean(cv_cumlogit_cpo5)
+cv_cpo6 <- mean(cv_cumlogit_cpo6)
+cv_cpo7 <- mean(cv_cumlogit_cpo7)
+cv_cpo8 <- mean(cv_cumlogit_cpo8)
+cv_cpo9 <- mean(cv_cumlogit_cpo9)
+cv_cpo10 <- mean(cv_cumlogit_cpo10)
+
+
+# Constrained - linear 
+cv_lcpo1 <- mean(cv_cumlogit_lcpo1)
+cv_lcpo2 <- mean(cv_cumlogit_lcpo2)
+cv_lcpo3 <- mean(cv_cumlogit_lcpo3)
+cv_lcpo4 <- mean(cv_cumlogit_lcpo4)
+cv_lcpo5 <- mean(cv_cumlogit_lcpo5)
+cv_lcpo6 <- mean(cv_cumlogit_lcpo6)
+cv_lcpo7 <- mean(cv_cumlogit_lcpo7)
+cv_lcpo8 <- mean(cv_cumlogit_lcpo8)
+cv_lcpo9 <- mean(cv_cumlogit_lcpo9)
+cv_lcpo10 <- mean(cv_cumlogit_lcpo10)
+
+
+# Logistic 
+cv_lr1 <- mean(cv_cumlogit_lr1)
+cv_lr2 <- mean(cv_cumlogit_lr2)
+cv_lr3 <- mean(cv_cumlogit_lr3)
+cv_lr4 <- mean(cv_cumlogit_lr4)
+cv_lr5 <- mean(cv_cumlogit_lr5)
+cv_lr6 <- mean(cv_cumlogit_lr6)
+cv_lr7 <- mean(cv_cumlogit_lr7)
+cv_lr8 <- mean(cv_cumlogit_lr8)
+cv_lr9 <- mean(cv_cumlogit_lr9)
+cv_lr10 <- mean(cv_cumlogit_lr10)
+```
+
+
+## MSE across each model and cumulative logit 
+```{r}
+#PO model 
+mse_po1 <- mean(mse_cumlogit_po1)
+mse_po2 <- mean(mse_cumlogit_po2)
+mse_po3 <- mean(mse_cumlogit_po3)
+mse_po4 <- mean(mse_cumlogit_po4)
+mse_po5 <- mean(mse_cumlogit_po5)
+mse_po6 <- mean(mse_cumlogit_po6)
+mse_po7 <- mean(mse_cumlogit_po7)
+mse_po8 <- mean(mse_cumlogit_po8)
+mse_po9 <- mean(mse_cumlogit_po9)
+mse_po10 <- mean(mse_cumlogit_po10)
+
+
+# PPO model 
+mse_ppo1 <- mean(mse_cumlogit_ppo1)
+mse_ppo2 <- mean(mse_cumlogit_ppo2)
+mse_ppo3 <- mean(mse_cumlogit_ppo3)
+mse_ppo4 <- mean(mse_cumlogit_ppo4)
+mse_ppo5 <- mean(mse_cumlogit_ppo5)
+mse_ppo6 <- mean(mse_cumlogit_ppo6)
+mse_ppo7 <- mean(mse_cumlogit_ppo7)
+mse_ppo8 <- mean(mse_cumlogit_ppo8)
+mse_ppo9 <- mean(mse_cumlogit_ppo9)
+mse_ppo10 <- mean(mse_cumlogit_ppo10)
+
+
+# Constrained - divergent 
+mse_cpo1 <- mean(mse_cumlogit_cpo1)
+mse_cpo2 <- mean(mse_cumlogit_cpo2)
+mse_cpo3 <- mean(mse_cumlogit_cpo3)
+mse_cpo4 <- mean(mse_cumlogit_cpo4)
+mse_cpo5 <- mean(mse_cumlogit_cpo5)
+mse_cpo6 <- mean(mse_cumlogit_cpo6)
+mse_cpo7 <- mean(mse_cumlogit_cpo7)
+mse_cpo8 <- mean(mse_cumlogit_cpo8)
+mse_cpo9 <- mean(mse_cumlogit_cpo9)
+mse_cpo10 <- mean(mse_cumlogit_cpo10)
+
+
+# Constrained - linear 
+mse_lcpo1 <- mean(mse_cumlogit_lcpo1)
+mse_lcpo2 <- mean(mse_cumlogit_lcpo2)
+mse_lcpo3 <- mean(mse_cumlogit_lcpo3)
+mse_lcpo4 <- mean(mse_cumlogit_lcpo4)
+mse_lcpo5 <- mean(mse_cumlogit_lcpo5)
+mse_lcpo6 <- mean(mse_cumlogit_lcpo6)
+mse_lcpo7 <- mean(mse_cumlogit_lcpo7)
+mse_lcpo8 <- mean(mse_cumlogit_lcpo8)
+mse_lcpo9 <- mean(mse_cumlogit_lcpo9)
+mse_lcpo10 <- mean(mse_cumlogit_lcpo10)
+
+
+# Logistic 
+mse_lr1 <- mean(mse_cumlogit_lr1)
+mse_lr2 <- mean(mse_cumlogit_lr2)
+mse_lr3 <- mean(mse_cumlogit_lr3)
+mse_lr4 <- mean(mse_cumlogit_lr4)
+mse_lr5 <- mean(mse_cumlogit_lr5)
+mse_lr6 <- mean(mse_cumlogit_lr6)
+mse_lr7 <- mean(mse_cumlogit_lr7)
+mse_lr8 <- mean(mse_cumlogit_lr8)
+mse_lr9 <- mean(mse_cumlogit_lr9)
+mse_lr10 <- mean(mse_cumlogit_lr10)
+
+```
+
+
+## Compute jackknife-after-bootstrap Monte Carlo standard error estimation - BIAS 
+## These should be <0.05, otherwise increase n_sim 
+```{r}
+nsim <- 1000
+
+MC_YMinusi_bias1_po <- MC_YMinusi_bias2_po <- MC_YMinusi_bias3_po <- MC_YMinusi_bias4_po <- MC_YMinusi_bias5_po <- MC_YMinusi_bias6_po <- MC_YMinusi_bias7_po <- MC_YMinusi_bias8_po <- MC_YMinusi_bias9_po <- MC_YMinusi_bias10_po <- MC_YMinusi_bias1_ppo <- MC_YMinusi_bias2_ppo <- MC_YMinusi_bias3_ppo <- MC_YMinusi_bias4_ppo <- MC_YMinusi_bias5_ppo <- MC_YMinusi_bias6_ppo <- MC_YMinusi_bias7_ppo <- MC_YMinusi_bias8_ppo <- MC_YMinusi_bias9_ppo <- MC_YMinusi_bias10_ppo <- MC_YMinusi_bias1_cpo <- MC_YMinusi_bias2_cpo <- MC_YMinusi_bias3_cpo <- MC_YMinusi_bias4_cpo <- MC_YMinusi_bias5_cpo <- MC_YMinusi_bias6_cpo <- MC_YMinusi_bias7_cpo <- MC_YMinusi_bias8_cpo <- MC_YMinusi_bias9_cpo <- MC_YMinusi_bias10_cpo <- MC_YMinusi_bias1_lcpo <- MC_YMinusi_bias2_lcpo <- MC_YMinusi_bias3_lcpo <- MC_YMinusi_bias4_lcpo <- MC_YMinusi_bias5_lcpo <- MC_YMinusi_bias6_lcpo <- MC_YMinusi_bias7_lcpo <- MC_YMinusi_bias8_lcpo <- MC_YMinusi_bias9_lcpo <- MC_YMinusi_bias10_lcpo <- MC_YMinusi_bias1_lr <- MC_YMinusi_bias2_lr <- MC_YMinusi_bias3_lr <- MC_YMinusi_bias4_lr <- MC_YMinusi_bias5_lr <- MC_YMinusi_bias6_lr <- MC_YMinusi_bias7_lr <- MC_YMinusi_bias8_lr <- MC_YMinusi_bias9_lr <- MC_YMinusi_bias10_lr <- numeric(nsim)
+
+for(i in 1:nsim){
+  MC_YMinusi_bias1_po[i] = sum(bias_cumlogit_po1[-i])/(nsim-1)
+  MC_YMinusi_bias2_po[i] = sum(bias_cumlogit_po2[-i])/(nsim-1)
+  MC_YMinusi_bias3_po[i] = sum(bias_cumlogit_po3[-i])/(nsim-1)
+  MC_YMinusi_bias4_po[i] = sum(bias_cumlogit_po4[-i])/(nsim-1)
+  MC_YMinusi_bias5_po[i] = sum(bias_cumlogit_po5[-i])/(nsim-1)
+  MC_YMinusi_bias6_po[i] = sum(bias_cumlogit_po6[-i])/(nsim-1)
+  MC_YMinusi_bias7_po[i] = sum(bias_cumlogit_po7[-i])/(nsim-1)
+  MC_YMinusi_bias8_po[i] = sum(bias_cumlogit_po8[-i])/(nsim-1)
+  MC_YMinusi_bias9_po[i] = sum(bias_cumlogit_po9[-i])/(nsim-1)
+  MC_YMinusi_bias10_po[i] = sum(bias_cumlogit_po10[-i])/(nsim-1)
+
+  MC_YMinusi_bias1_ppo[i] = sum(bias_cumlogit_ppo1[-i])/(nsim-1)
+  MC_YMinusi_bias2_ppo[i] = sum(bias_cumlogit_ppo2[-i])/(nsim-1)
+  MC_YMinusi_bias3_ppo[i] = sum(bias_cumlogit_ppo3[-i])/(nsim-1)
+  MC_YMinusi_bias4_ppo[i] = sum(bias_cumlogit_ppo4[-i])/(nsim-1)
+  MC_YMinusi_bias5_ppo[i] = sum(bias_cumlogit_ppo5[-i])/(nsim-1)
+  MC_YMinusi_bias6_ppo[i] = sum(bias_cumlogit_ppo6[-i])/(nsim-1)
+  MC_YMinusi_bias7_ppo[i] = sum(bias_cumlogit_ppo7[-i])/(nsim-1)
+  MC_YMinusi_bias8_ppo[i] = sum(bias_cumlogit_ppo8[-i])/(nsim-1)
+  MC_YMinusi_bias9_ppo[i] = sum(bias_cumlogit_ppo9[-i])/(nsim-1)
+  MC_YMinusi_bias10_ppo[i] = sum(bias_cumlogit_ppo10[-i])/(nsim-1)
+
+  MC_YMinusi_bias1_cpo[i] = sum(bias_cumlogit_cpo1[-i])/(nsim-1)
+  MC_YMinusi_bias2_cpo[i] = sum(bias_cumlogit_cpo2[-i])/(nsim-1)
+  MC_YMinusi_bias3_cpo[i] = sum(bias_cumlogit_cpo3[-i])/(nsim-1)
+  MC_YMinusi_bias4_cpo[i] = sum(bias_cumlogit_cpo4[-i])/(nsim-1)
+  MC_YMinusi_bias5_cpo[i] = sum(bias_cumlogit_cpo5[-i])/(nsim-1)
+  MC_YMinusi_bias6_cpo[i] = sum(bias_cumlogit_cpo6[-i])/(nsim-1)
+  MC_YMinusi_bias7_cpo[i] = sum(bias_cumlogit_cpo7[-i])/(nsim-1)
+  MC_YMinusi_bias8_cpo[i] = sum(bias_cumlogit_cpo8[-i])/(nsim-1)
+  MC_YMinusi_bias9_cpo[i] = sum(bias_cumlogit_cpo9[-i])/(nsim-1)
+  MC_YMinusi_bias10_cpo[i] = sum(bias_cumlogit_cpo10[-i])/(nsim-1)
+
+  
+  MC_YMinusi_bias1_lcpo[i] = sum(bias_cumlogit_lcpo1[-i])/(nsim-1)
+  MC_YMinusi_bias2_lcpo[i] = sum(bias_cumlogit_lcpo2[-i])/(nsim-1)
+  MC_YMinusi_bias3_lcpo[i] = sum(bias_cumlogit_lcpo3[-i])/(nsim-1)
+  MC_YMinusi_bias4_lcpo[i] = sum(bias_cumlogit_lcpo4[-i])/(nsim-1)
+  MC_YMinusi_bias5_lcpo[i] = sum(bias_cumlogit_lcpo5[-i])/(nsim-1)
+  MC_YMinusi_bias6_lcpo[i] = sum(bias_cumlogit_lcpo6[-i])/(nsim-1)
+  MC_YMinusi_bias7_lcpo[i] = sum(bias_cumlogit_lcpo7[-i])/(nsim-1)
+  MC_YMinusi_bias8_lcpo[i] = sum(bias_cumlogit_lcpo8[-i])/(nsim-1)
+  MC_YMinusi_bias9_lcpo[i] = sum(bias_cumlogit_lcpo9[-i])/(nsim-1)
+  MC_YMinusi_bias10_lcpo[i] = sum(bias_cumlogit_lcpo10[-i])/(nsim-1)
+
+
+  MC_YMinusi_bias1_lr[i] = sum(bias_cumlogit_lr1[-i])/(nsim-1)
+  MC_YMinusi_bias2_lr[i] = sum(bias_cumlogit_lr2[-i])/(nsim-1) 
+  MC_YMinusi_bias3_lr[i] = sum(bias_cumlogit_lr3[-i])/(nsim-1)
+  MC_YMinusi_bias4_lr[i] = sum(bias_cumlogit_lr4[-i])/(nsim-1)
+  MC_YMinusi_bias5_lr[i] = sum(bias_cumlogit_lr5[-i])/(nsim-1)
+  MC_YMinusi_bias6_lr[i] = sum(bias_cumlogit_lr6[-i])/(nsim-1)
+  MC_YMinusi_bias7_lr[i] = sum(bias_cumlogit_lr7[-i])/(nsim-1)
+  MC_YMinusi_bias8_lr[i] = sum(bias_cumlogit_lr8[-i])/(nsim-1)
+  MC_YMinusi_bias9_lr[i] = sum(bias_cumlogit_lr9[-i])/(nsim-1)
+  MC_YMinusi_bias10_lr[i] = sum(bias_cumlogit_lr10[-i])/(nsim-1)
+}
+
+bar_MC_YMinusi_bias1_po = sum(MC_YMinusi_bias1_po)/nsim
+bar_MC_YMinusi_bias2_po = sum(MC_YMinusi_bias2_po)/nsim
+bar_MC_YMinusi_bias3_po = sum(MC_YMinusi_bias3_po)/nsim
+bar_MC_YMinusi_bias4_po = sum(MC_YMinusi_bias4_po)/nsim
+bar_MC_YMinusi_bias5_po = sum(MC_YMinusi_bias5_po)/nsim
+bar_MC_YMinusi_bias6_po = sum(MC_YMinusi_bias6_po)/nsim
+bar_MC_YMinusi_bias7_po = sum(MC_YMinusi_bias7_po)/nsim
+bar_MC_YMinusi_bias8_po = sum(MC_YMinusi_bias8_po)/nsim
+bar_MC_YMinusi_bias9_po = sum(MC_YMinusi_bias9_po)/nsim
+bar_MC_YMinusi_bias10_po = sum(MC_YMinusi_bias10_po)/nsim
+
+bar_MC_YMinusi_bias1_ppo = sum(MC_YMinusi_bias1_ppo)/nsim
+bar_MC_YMinusi_bias2_ppo = sum(MC_YMinusi_bias2_ppo)/nsim
+bar_MC_YMinusi_bias3_ppo = sum(MC_YMinusi_bias3_ppo)/nsim
+bar_MC_YMinusi_bias4_ppo = sum(MC_YMinusi_bias4_ppo)/nsim
+bar_MC_YMinusi_bias5_ppo = sum(MC_YMinusi_bias5_ppo)/nsim
+bar_MC_YMinusi_bias6_ppo = sum(MC_YMinusi_bias6_ppo)/nsim
+bar_MC_YMinusi_bias7_ppo = sum(MC_YMinusi_bias7_ppo)/nsim
+bar_MC_YMinusi_bias8_ppo = sum(MC_YMinusi_bias8_ppo)/nsim
+bar_MC_YMinusi_bias9_ppo = sum(MC_YMinusi_bias9_ppo)/nsim
+bar_MC_YMinusi_bias10_ppo = sum(MC_YMinusi_bias10_ppo)/nsim
+
+bar_MC_YMinusi_bias1_cpo = sum(MC_YMinusi_bias1_cpo)/nsim
+bar_MC_YMinusi_bias2_cpo = sum(MC_YMinusi_bias2_cpo)/nsim
+bar_MC_YMinusi_bias3_cpo = sum(MC_YMinusi_bias3_cpo)/nsim
+bar_MC_YMinusi_bias4_cpo = sum(MC_YMinusi_bias4_cpo)/nsim
+bar_MC_YMinusi_bias5_cpo = sum(MC_YMinusi_bias5_cpo)/nsim
+bar_MC_YMinusi_bias6_cpo = sum(MC_YMinusi_bias6_cpo)/nsim
+bar_MC_YMinusi_bias7_cpo = sum(MC_YMinusi_bias7_cpo)/nsim
+bar_MC_YMinusi_bias8_cpo = sum(MC_YMinusi_bias8_cpo)/nsim
+bar_MC_YMinusi_bias9_cpo = sum(MC_YMinusi_bias9_cpo)/nsim
+bar_MC_YMinusi_bias10_cpo = sum(MC_YMinusi_bias10_cpo)/nsim
+
+
+bar_MC_YMinusi_bias1_lcpo = sum(MC_YMinusi_bias1_lcpo)/nsim
+bar_MC_YMinusi_bias2_lcpo = sum(MC_YMinusi_bias2_lcpo)/nsim
+bar_MC_YMinusi_bias3_lcpo = sum(MC_YMinusi_bias3_lcpo)/nsim
+bar_MC_YMinusi_bias4_lcpo = sum(MC_YMinusi_bias4_lcpo)/nsim
+bar_MC_YMinusi_bias5_lcpo = sum(MC_YMinusi_bias5_lcpo)/nsim
+bar_MC_YMinusi_bias6_lcpo = sum(MC_YMinusi_bias6_lcpo)/nsim
+bar_MC_YMinusi_bias7_lcpo = sum(MC_YMinusi_bias7_lcpo)/nsim
+bar_MC_YMinusi_bias8_lcpo = sum(MC_YMinusi_bias8_lcpo)/nsim
+bar_MC_YMinusi_bias9_lcpo = sum(MC_YMinusi_bias9_lcpo)/nsim
+bar_MC_YMinusi_bias10_lcpo = sum(MC_YMinusi_bias10_lcpo)/nsim
+
+bar_MC_YMinusi_bias1_lr = sum(MC_YMinusi_bias1_lr)/nsim
+bar_MC_YMinusi_bias2_lr = sum(MC_YMinusi_bias2_lr)/nsim
+bar_MC_YMinusi_bias3_lr = sum(MC_YMinusi_bias3_lr)/nsim
+bar_MC_YMinusi_bias4_lr = sum(MC_YMinusi_bias4_lr)/nsim
+bar_MC_YMinusi_bias5_lr = sum(MC_YMinusi_bias5_lr)/nsim
+bar_MC_YMinusi_bias6_lr = sum(MC_YMinusi_bias6_lr)/nsim
+bar_MC_YMinusi_bias7_lr = sum(MC_YMinusi_bias7_lr)/nsim
+bar_MC_YMinusi_bias8_lr = sum(MC_YMinusi_bias8_lr)/nsim
+bar_MC_YMinusi_bias9_lr = sum(MC_YMinusi_bias9_lr)/nsim
+bar_MC_YMinusi_bias10_lr = sum(MC_YMinusi_bias10_lr)/nsim
+
+MCE_JK_bias1_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_po-bar_MC_YMinusi_bias1_po)^2))
+MCE_JK_bias2_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_po-bar_MC_YMinusi_bias2_po)^2))
+MCE_JK_bias3_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias3_po-bar_MC_YMinusi_bias3_po)^2))
+MCE_JK_bias4_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias4_po-bar_MC_YMinusi_bias4_po)^2))
+MCE_JK_bias5_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias5_po-bar_MC_YMinusi_bias5_po)^2))
+MCE_JK_bias6_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias6_po-bar_MC_YMinusi_bias6_po)^2))
+MCE_JK_bias7_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias7_po-bar_MC_YMinusi_bias7_po)^2))
+MCE_JK_bias8_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias8_po-bar_MC_YMinusi_bias8_po)^2))
+MCE_JK_bias9_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias9_po-bar_MC_YMinusi_bias9_po)^2))
+MCE_JK_bias10_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias10_po-bar_MC_YMinusi_bias10_po)^2))
+
+MCE_JK_bias1_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_ppo-bar_MC_YMinusi_bias1_ppo)^2))
+MCE_JK_bias2_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_ppo-bar_MC_YMinusi_bias2_ppo)^2))
+MCE_JK_bias3_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias3_ppo-bar_MC_YMinusi_bias3_ppo)^2))
+MCE_JK_bias4_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias4_ppo-bar_MC_YMinusi_bias4_ppo)^2))
+MCE_JK_bias5_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias5_ppo-bar_MC_YMinusi_bias5_ppo)^2))
+MCE_JK_bias6_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias6_ppo-bar_MC_YMinusi_bias6_ppo)^2))
+MCE_JK_bias7_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias7_ppo-bar_MC_YMinusi_bias7_ppo)^2))
+MCE_JK_bias8_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias8_ppo-bar_MC_YMinusi_bias8_ppo)^2))
+MCE_JK_bias9_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias9_ppo-bar_MC_YMinusi_bias9_ppo)^2))
+MCE_JK_bias10_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias10_ppo-bar_MC_YMinusi_bias10_ppo)^2))
+
+MCE_JK_bias1_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_cpo-bar_MC_YMinusi_bias1_cpo)^2))
+MCE_JK_bias2_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_cpo-bar_MC_YMinusi_bias2_cpo)^2))
+MCE_JK_bias3_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias3_cpo-bar_MC_YMinusi_bias3_cpo)^2))
+MCE_JK_bias4_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias4_cpo-bar_MC_YMinusi_bias4_cpo)^2))
+MCE_JK_bias5_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias5_cpo-bar_MC_YMinusi_bias5_cpo)^2))
+MCE_JK_bias6_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias6_cpo-bar_MC_YMinusi_bias6_cpo)^2))
+MCE_JK_bias7_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias7_cpo-bar_MC_YMinusi_bias7_cpo)^2))
+MCE_JK_bias8_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias8_cpo-bar_MC_YMinusi_bias8_cpo)^2))
+MCE_JK_bias9_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias9_cpo-bar_MC_YMinusi_bias9_cpo)^2))
+MCE_JK_bias10_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias10_cpo-bar_MC_YMinusi_bias10_cpo)^2))
+
+MCE_JK_bias1_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_lcpo-bar_MC_YMinusi_bias1_lcpo)^2))
+MCE_JK_bias2_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_lcpo-bar_MC_YMinusi_bias2_lcpo)^2))
+MCE_JK_bias3_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias3_lcpo-bar_MC_YMinusi_bias3_lcpo)^2))
+MCE_JK_bias4_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias4_lcpo-bar_MC_YMinusi_bias4_lcpo)^2))
+MCE_JK_bias5_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias5_lcpo-bar_MC_YMinusi_bias5_lcpo)^2))
+MCE_JK_bias6_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias6_lcpo-bar_MC_YMinusi_bias6_lcpo)^2))
+MCE_JK_bias7_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias7_lcpo-bar_MC_YMinusi_bias7_lcpo)^2))
+MCE_JK_bias8_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias8_lcpo-bar_MC_YMinusi_bias8_lcpo)^2))
+MCE_JK_bias9_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias9_lcpo-bar_MC_YMinusi_bias9_lcpo)^2))
+MCE_JK_bias10_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias10_lcpo-bar_MC_YMinusi_bias10_lcpo)^2))
+
+MCE_JK_bias1_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias1_lr-bar_MC_YMinusi_bias1_lr)^2))
+MCE_JK_bias2_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias2_lr-bar_MC_YMinusi_bias2_lr)^2))
+MCE_JK_bias3_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias3_lr-bar_MC_YMinusi_bias3_lr)^2))
+MCE_JK_bias4_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias4_lr-bar_MC_YMinusi_bias4_lr)^2))
+MCE_JK_bias5_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias5_lr-bar_MC_YMinusi_bias5_lr)^2))
+MCE_JK_bias6_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias6_lr-bar_MC_YMinusi_bias6_lr)^2))
+MCE_JK_bias7_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias7_lr-bar_MC_YMinusi_bias7_lr)^2))
+MCE_JK_bias8_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias8_lr-bar_MC_YMinusi_bias8_lr)^2))
+MCE_JK_bias9_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias9_lr-bar_MC_YMinusi_bias9_lr)^2))
+MCE_JK_bias10_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_bias10_lr-bar_MC_YMinusi_bias10_lr)^2))
+
+```
+
+## Compute jackknife-after-bootstrap Monte Carlo standard error estimation - COVERAGE 
+```{r}
+MC_YMinusi_cv1_po <- MC_YMinusi_cv2_po <- MC_YMinusi_cv3_po <- MC_YMinusi_cv4_po <- MC_YMinusi_cv5_po <- MC_YMinusi_cv6_po <- MC_YMinusi_cv7_po <- MC_YMinusi_cv8_po <- MC_YMinusi_cv9_po <- MC_YMinusi_cv10_po <- MC_YMinusi_cv1_ppo <- MC_YMinusi_cv2_ppo <- MC_YMinusi_cv3_ppo <- MC_YMinusi_cv4_ppo <- MC_YMinusi_cv5_ppo <- MC_YMinusi_cv6_ppo <- MC_YMinusi_cv7_ppo <- MC_YMinusi_cv8_ppo <- MC_YMinusi_cv9_ppo <- MC_YMinusi_cv10_ppo <- MC_YMinusi_cv1_cpo <- MC_YMinusi_cv2_cpo <- MC_YMinusi_cv3_cpo <- MC_YMinusi_cv4_cpo <- MC_YMinusi_cv5_cpo <- MC_YMinusi_cv6_cpo <- MC_YMinusi_cv7_cpo <- MC_YMinusi_cv8_cpo <- MC_YMinusi_cv9_cpo <- MC_YMinusi_cv10_cpo <- MC_YMinusi_cv1_lcpo <- MC_YMinusi_cv2_lcpo <- MC_YMinusi_cv3_lcpo <- MC_YMinusi_cv4_lcpo <- MC_YMinusi_cv5_lcpo <- MC_YMinusi_cv6_lcpo <- MC_YMinusi_cv7_lcpo <- MC_YMinusi_cv8_lcpo <- MC_YMinusi_cv9_lcpo <- MC_YMinusi_cv10_lcpo <-  MC_YMinusi_cv1_lr <- MC_YMinusi_cv2_lr <- MC_YMinusi_cv3_lr <- MC_YMinusi_cv4_lr <- MC_YMinusi_cv5_lr <- MC_YMinusi_cv6_lr <- MC_YMinusi_cv7_lr <- MC_YMinusi_cv8_lr <- MC_YMinusi_cv9_lr <- MC_YMinusi_cv10_lr <- numeric(nsim)
+
+for(i in 1:nsim){
+  MC_YMinusi_cv1_po[i] = sum(cv_cumlogit_po1[-i])/(nsim-1)
+  MC_YMinusi_cv2_po[i] = sum(cv_cumlogit_po2[-i])/(nsim-1)
+  MC_YMinusi_cv3_po[i] = sum(cv_cumlogit_po3[-i])/(nsim-1)
+  MC_YMinusi_cv4_po[i] = sum(cv_cumlogit_po4[-i])/(nsim-1)
+  MC_YMinusi_cv5_po[i] = sum(cv_cumlogit_po5[-i])/(nsim-1)
+  MC_YMinusi_cv6_po[i] = sum(cv_cumlogit_po6[-i])/(nsim-1)
+  MC_YMinusi_cv7_po[i] = sum(cv_cumlogit_po7[-i])/(nsim-1)
+  MC_YMinusi_cv8_po[i] = sum(cv_cumlogit_po8[-i])/(nsim-1)
+  MC_YMinusi_cv9_po[i] = sum(cv_cumlogit_po9[-i])/(nsim-1)
+  MC_YMinusi_cv10_po[i] = sum(cv_cumlogit_po10[-i])/(nsim-1)
+
+
+  MC_YMinusi_cv1_ppo[i] = sum(cv_cumlogit_ppo1[-i])/(nsim-1)
+  MC_YMinusi_cv2_ppo[i] = sum(cv_cumlogit_ppo2[-i])/(nsim-1)
+  MC_YMinusi_cv3_ppo[i] = sum(cv_cumlogit_ppo3[-i])/(nsim-1)
+  MC_YMinusi_cv4_ppo[i] = sum(cv_cumlogit_ppo4[-i])/(nsim-1)
+  MC_YMinusi_cv5_ppo[i] = sum(cv_cumlogit_ppo5[-i])/(nsim-1)
+  MC_YMinusi_cv6_ppo[i] = sum(cv_cumlogit_ppo6[-i])/(nsim-1)
+  MC_YMinusi_cv7_ppo[i] = sum(cv_cumlogit_ppo7[-i])/(nsim-1)
+  MC_YMinusi_cv8_ppo[i] = sum(cv_cumlogit_ppo8[-i])/(nsim-1)
+  MC_YMinusi_cv9_ppo[i] = sum(cv_cumlogit_ppo9[-i])/(nsim-1)
+  MC_YMinusi_cv10_ppo[i] = sum(cv_cumlogit_ppo10[-i])/(nsim-1)
+  
+  MC_YMinusi_cv1_cpo[i] = sum(cv_cumlogit_cpo1[-i])/(nsim-1)
+  MC_YMinusi_cv2_cpo[i] = sum(cv_cumlogit_cpo2[-i])/(nsim-1)
+  MC_YMinusi_cv3_cpo[i] = sum(cv_cumlogit_cpo3[-i])/(nsim-1)
+  MC_YMinusi_cv4_cpo[i] = sum(cv_cumlogit_cpo4[-i])/(nsim-1)
+  MC_YMinusi_cv5_cpo[i] = sum(cv_cumlogit_cpo5[-i])/(nsim-1)
+  MC_YMinusi_cv6_cpo[i] = sum(cv_cumlogit_cpo6[-i])/(nsim-1)
+  MC_YMinusi_cv7_cpo[i] = sum(cv_cumlogit_cpo7[-i])/(nsim-1)
+  MC_YMinusi_cv8_cpo[i] = sum(cv_cumlogit_cpo8[-i])/(nsim-1)
+  MC_YMinusi_cv9_cpo[i] = sum(cv_cumlogit_cpo9[-i])/(nsim-1)
+  MC_YMinusi_cv10_cpo[i] = sum(cv_cumlogit_cpo10[-i])/(nsim-1)
+
+  
+  MC_YMinusi_cv1_lcpo[i] = sum(cv_cumlogit_lcpo1[-i])/(nsim-1)
+  MC_YMinusi_cv2_lcpo[i] = sum(cv_cumlogit_lcpo2[-i])/(nsim-1)
+  MC_YMinusi_cv3_lcpo[i] = sum(cv_cumlogit_lcpo3[-i])/(nsim-1)
+  MC_YMinusi_cv4_lcpo[i] = sum(cv_cumlogit_lcpo4[-i])/(nsim-1)
+  MC_YMinusi_cv5_lcpo[i] = sum(cv_cumlogit_lcpo5[-i])/(nsim-1)
+  MC_YMinusi_cv6_lcpo[i] = sum(cv_cumlogit_lcpo6[-i])/(nsim-1)
+  MC_YMinusi_cv7_lcpo[i] = sum(cv_cumlogit_lcpo7[-i])/(nsim-1)
+  MC_YMinusi_cv8_lcpo[i] = sum(cv_cumlogit_lcpo8[-i])/(nsim-1)
+  MC_YMinusi_cv9_lcpo[i] = sum(cv_cumlogit_lcpo9[-i])/(nsim-1)
+  MC_YMinusi_cv10_lcpo[i] = sum(cv_cumlogit_lcpo10[-i])/(nsim-1)
+
+
+  MC_YMinusi_cv1_lr[i] = sum(cv_cumlogit_lr1[-i])/(nsim-1)
+  MC_YMinusi_cv2_lr[i] = sum(cv_cumlogit_lr2[-i])/(nsim-1)
+  MC_YMinusi_cv3_lr[i] = sum(cv_cumlogit_lr3[-i])/(nsim-1)
+  MC_YMinusi_cv4_lr[i] = sum(cv_cumlogit_lr4[-i])/(nsim-1)
+  MC_YMinusi_cv5_lr[i] = sum(cv_cumlogit_lr5[-i])/(nsim-1)
+  MC_YMinusi_cv6_lr[i] = sum(cv_cumlogit_lr6[-i])/(nsim-1)
+  MC_YMinusi_cv7_lr[i] = sum(cv_cumlogit_lr7[-i])/(nsim-1)
+  MC_YMinusi_cv8_lr[i] = sum(cv_cumlogit_lr8[-i])/(nsim-1)
+  MC_YMinusi_cv9_lr[i] = sum(cv_cumlogit_lr9[-i])/(nsim-1)
+  MC_YMinusi_cv10_lr[i] = sum(cv_cumlogit_lr10[-i])/(nsim-1)
+}
+
+bar_MC_YMinusi_cv1_po = sum(MC_YMinusi_cv1_po)/nsim
+bar_MC_YMinusi_cv2_po = sum(MC_YMinusi_cv2_po)/nsim
+bar_MC_YMinusi_cv3_po = sum(MC_YMinusi_cv3_po)/nsim
+bar_MC_YMinusi_cv4_po = sum(MC_YMinusi_cv4_po)/nsim
+bar_MC_YMinusi_cv5_po = sum(MC_YMinusi_cv5_po)/nsim
+bar_MC_YMinusi_cv6_po = sum(MC_YMinusi_cv6_po)/nsim
+bar_MC_YMinusi_cv7_po = sum(MC_YMinusi_cv7_po)/nsim
+bar_MC_YMinusi_cv8_po = sum(MC_YMinusi_cv8_po)/nsim
+bar_MC_YMinusi_cv9_po = sum(MC_YMinusi_cv9_po)/nsim
+bar_MC_YMinusi_cv10_po = sum(MC_YMinusi_cv10_po)/nsim
+
+
+bar_MC_YMinusi_cv1_ppo = sum(MC_YMinusi_cv1_ppo)/nsim
+bar_MC_YMinusi_cv2_ppo = sum(MC_YMinusi_cv2_ppo)/nsim
+bar_MC_YMinusi_cv3_ppo = sum(MC_YMinusi_cv3_ppo)/nsim
+bar_MC_YMinusi_cv4_ppo = sum(MC_YMinusi_cv4_ppo)/nsim
+bar_MC_YMinusi_cv5_ppo = sum(MC_YMinusi_cv5_ppo)/nsim
+bar_MC_YMinusi_cv6_ppo = sum(MC_YMinusi_cv6_ppo)/nsim
+bar_MC_YMinusi_cv7_ppo = sum(MC_YMinusi_cv7_ppo)/nsim
+bar_MC_YMinusi_cv8_ppo = sum(MC_YMinusi_cv8_ppo)/nsim
+bar_MC_YMinusi_cv9_ppo = sum(MC_YMinusi_cv9_ppo)/nsim
+bar_MC_YMinusi_cv10_ppo = sum(MC_YMinusi_cv10_ppo)/nsim
+
+bar_MC_YMinusi_cv1_cpo = sum(MC_YMinusi_cv1_cpo)/nsim
+bar_MC_YMinusi_cv2_cpo = sum(MC_YMinusi_cv2_cpo)/nsim
+bar_MC_YMinusi_cv3_cpo = sum(MC_YMinusi_cv3_cpo)/nsim
+bar_MC_YMinusi_cv4_cpo = sum(MC_YMinusi_cv4_cpo)/nsim
+bar_MC_YMinusi_cv5_cpo = sum(MC_YMinusi_cv5_cpo)/nsim
+bar_MC_YMinusi_cv6_cpo = sum(MC_YMinusi_cv6_cpo)/nsim
+bar_MC_YMinusi_cv7_cpo = sum(MC_YMinusi_cv7_cpo)/nsim
+bar_MC_YMinusi_cv8_cpo = sum(MC_YMinusi_cv8_cpo)/nsim
+bar_MC_YMinusi_cv9_cpo = sum(MC_YMinusi_cv9_cpo)/nsim
+bar_MC_YMinusi_cv10_cpo = sum(MC_YMinusi_cv10_cpo)/nsim
+
+
+bar_MC_YMinusi_cv1_lcpo = sum(MC_YMinusi_cv1_lcpo)/nsim
+bar_MC_YMinusi_cv2_lcpo = sum(MC_YMinusi_cv2_lcpo)/nsim
+bar_MC_YMinusi_cv3_lcpo = sum(MC_YMinusi_cv3_lcpo)/nsim
+bar_MC_YMinusi_cv4_lcpo = sum(MC_YMinusi_cv4_lcpo)/nsim
+bar_MC_YMinusi_cv5_lcpo = sum(MC_YMinusi_cv5_lcpo)/nsim
+bar_MC_YMinusi_cv6_lcpo = sum(MC_YMinusi_cv6_lcpo)/nsim
+bar_MC_YMinusi_cv7_lcpo = sum(MC_YMinusi_cv7_lcpo)/nsim
+bar_MC_YMinusi_cv8_lcpo = sum(MC_YMinusi_cv8_lcpo)/nsim
+bar_MC_YMinusi_cv9_lcpo = sum(MC_YMinusi_cv9_lcpo)/nsim
+bar_MC_YMinusi_cv10_lcpo = sum(MC_YMinusi_cv10_lcpo)/nsim
+
+bar_MC_YMinusi_cv1_lr = sum(MC_YMinusi_cv1_lr)/nsim
+bar_MC_YMinusi_cv2_lr = sum(MC_YMinusi_cv2_lr)/nsim
+bar_MC_YMinusi_cv3_lr = sum(MC_YMinusi_cv3_lr)/nsim
+bar_MC_YMinusi_cv4_lr = sum(MC_YMinusi_cv4_lr)/nsim
+bar_MC_YMinusi_cv5_lr = sum(MC_YMinusi_cv5_lr)/nsim
+bar_MC_YMinusi_cv6_lr = sum(MC_YMinusi_cv6_lr)/nsim
+bar_MC_YMinusi_cv7_lr = sum(MC_YMinusi_cv7_lr)/nsim
+bar_MC_YMinusi_cv8_lr = sum(MC_YMinusi_cv8_lr)/nsim
+bar_MC_YMinusi_cv9_lr = sum(MC_YMinusi_cv9_lr)/nsim
+bar_MC_YMinusi_cv10_lr = sum(MC_YMinusi_cv10_lr)/nsim
+
+
+MCE_JK_cv1_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_po-bar_MC_YMinusi_cv1_po)^2))
+MCE_JK_cv2_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_po-bar_MC_YMinusi_cv2_po)^2))
+MCE_JK_cv3_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv3_po-bar_MC_YMinusi_cv3_po)^2))
+MCE_JK_cv4_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv4_po-bar_MC_YMinusi_cv4_po)^2))
+MCE_JK_cv5_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv5_po-bar_MC_YMinusi_cv5_po)^2))
+MCE_JK_cv6_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv6_po-bar_MC_YMinusi_cv6_po)^2))
+MCE_JK_cv7_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv7_po-bar_MC_YMinusi_cv7_po)^2))
+MCE_JK_cv8_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv8_po-bar_MC_YMinusi_cv8_po)^2))
+MCE_JK_cv9_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv9_po-bar_MC_YMinusi_cv9_po)^2))
+MCE_JK_cv10_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv10_po-bar_MC_YMinusi_cv10_po)^2))
+
+MCE_JK_cv1_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_ppo-bar_MC_YMinusi_cv1_ppo)^2))
+MCE_JK_cv2_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_ppo-bar_MC_YMinusi_cv2_ppo)^2))
+MCE_JK_cv3_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv3_ppo-bar_MC_YMinusi_cv3_ppo)^2))
+MCE_JK_cv4_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv4_ppo-bar_MC_YMinusi_cv4_ppo)^2))
+MCE_JK_cv5_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv5_ppo-bar_MC_YMinusi_cv5_ppo)^2))
+MCE_JK_cv6_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv6_ppo-bar_MC_YMinusi_cv6_ppo)^2))
+MCE_JK_cv7_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv7_ppo-bar_MC_YMinusi_cv7_ppo)^2))
+MCE_JK_cv8_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv8_ppo-bar_MC_YMinusi_cv8_ppo)^2))
+MCE_JK_cv9_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv9_ppo-bar_MC_YMinusi_cv9_ppo)^2))
+MCE_JK_cv10_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv10_ppo-bar_MC_YMinusi_cv10_ppo)^2))
+
+MCE_JK_cv1_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_cpo-bar_MC_YMinusi_cv1_cpo)^2))
+MCE_JK_cv2_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_cpo-bar_MC_YMinusi_cv2_cpo)^2))
+MCE_JK_cv3_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv3_cpo-bar_MC_YMinusi_cv3_cpo)^2))
+MCE_JK_cv4_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv4_cpo-bar_MC_YMinusi_cv4_cpo)^2))
+MCE_JK_cv5_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv5_cpo-bar_MC_YMinusi_cv5_cpo)^2))
+MCE_JK_cv6_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv6_cpo-bar_MC_YMinusi_cv6_cpo)^2))
+MCE_JK_cv7_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv7_cpo-bar_MC_YMinusi_cv7_cpo)^2))
+MCE_JK_cv8_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv8_cpo-bar_MC_YMinusi_cv8_cpo)^2))
+MCE_JK_cv9_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv9_cpo-bar_MC_YMinusi_cv9_cpo)^2))
+MCE_JK_cv10_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv10_cpo-bar_MC_YMinusi_cv10_cpo)^2))
+
+
+MCE_JK_cv1_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_lcpo-bar_MC_YMinusi_cv1_lcpo)^2))
+MCE_JK_cv2_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_lcpo-bar_MC_YMinusi_cv2_lcpo)^2))
+MCE_JK_cv3_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv3_lcpo-bar_MC_YMinusi_cv3_lcpo)^2))
+MCE_JK_cv4_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv4_lcpo-bar_MC_YMinusi_cv4_lcpo)^2))
+MCE_JK_cv5_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv5_lcpo-bar_MC_YMinusi_cv5_lcpo)^2))
+MCE_JK_cv6_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv6_lcpo-bar_MC_YMinusi_cv6_lcpo)^2))
+MCE_JK_cv7_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv7_lcpo-bar_MC_YMinusi_cv7_lcpo)^2))
+MCE_JK_cv8_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv8_lcpo-bar_MC_YMinusi_cv8_lcpo)^2))
+MCE_JK_cv9_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv9_lcpo-bar_MC_YMinusi_cv9_lcpo)^2))
+MCE_JK_cv10_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv10_lcpo-bar_MC_YMinusi_cv10_lcpo)^2))
+
+
+MCE_JK_cv1_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv1_lr-bar_MC_YMinusi_cv1_lr)^2))
+MCE_JK_cv2_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv2_lr-bar_MC_YMinusi_cv2_lr)^2))
+MCE_JK_cv3_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv3_lr-bar_MC_YMinusi_cv3_lr)^2))
+MCE_JK_cv4_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv4_lr-bar_MC_YMinusi_cv4_lr)^2))
+MCE_JK_cv5_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv5_lr-bar_MC_YMinusi_cv5_lr)^2))
+MCE_JK_cv6_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv6_lr-bar_MC_YMinusi_cv6_lr)^2))
+MCE_JK_cv7_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv7_lr-bar_MC_YMinusi_cv7_lr)^2))
+MCE_JK_cv8_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv8_lr-bar_MC_YMinusi_cv8_lr)^2))
+MCE_JK_cv9_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv9_lr-bar_MC_YMinusi_cv9_lr)^2))
+MCE_JK_cv10_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_cv10_lr-bar_MC_YMinusi_cv10_lr)^2))
+
+```
+
+## Compute jackknife-after-bootstrap Monte Carlo standard error estimation - MSE 
+```{r}
+MC_YMinusi_mse1_po <- MC_YMinusi_mse2_po <- MC_YMinusi_mse3_po <- MC_YMinusi_mse4_po <- MC_YMinusi_mse5_po <- MC_YMinusi_mse6_po <- MC_YMinusi_mse7_po <- MC_YMinusi_mse8_po <- MC_YMinusi_mse9_po <- MC_YMinusi_mse10_po  <- MC_YMinusi_mse1_ppo <- MC_YMinusi_mse2_ppo <- MC_YMinusi_mse3_ppo <- MC_YMinusi_mse4_ppo <- MC_YMinusi_mse5_ppo <- MC_YMinusi_mse6_ppo <- MC_YMinusi_mse7_ppo <- MC_YMinusi_mse8_ppo <- MC_YMinusi_mse9_ppo <- MC_YMinusi_mse10_ppo  <- MC_YMinusi_mse1_cpo <- MC_YMinusi_mse2_cpo <- MC_YMinusi_mse3_cpo <- MC_YMinusi_mse4_cpo <- MC_YMinusi_mse5_cpo <- MC_YMinusi_mse6_cpo <- MC_YMinusi_mse7_cpo <- MC_YMinusi_mse8_cpo <- MC_YMinusi_mse9_cpo <- MC_YMinusi_mse10_cpo <- MC_YMinusi_mse1_lcpo <- MC_YMinusi_mse2_lcpo <- MC_YMinusi_mse3_lcpo <- MC_YMinusi_mse4_lcpo <- MC_YMinusi_mse5_lcpo <- MC_YMinusi_mse6_lcpo <- MC_YMinusi_mse7_lcpo <- MC_YMinusi_mse8_lcpo <- MC_YMinusi_mse9_lcpo <- MC_YMinusi_mse10_lcpo <- MC_YMinusi_mse1_lr <- MC_YMinusi_mse2_lr <- MC_YMinusi_mse3_lr <- MC_YMinusi_mse4_lr <- MC_YMinusi_mse5_lr <- MC_YMinusi_mse6_lr <- MC_YMinusi_mse7_lr <- MC_YMinusi_mse8_lr <- MC_YMinusi_mse9_lr <- MC_YMinusi_mse10_lr <- numeric(nsim)
+
+for(i in 1:nsim){
+  MC_YMinusi_mse1_po[i] = sum(mse_cumlogit_po1[-i])/(nsim-1)
+  MC_YMinusi_mse2_po[i] = sum(mse_cumlogit_po2[-i])/(nsim-1)
+  MC_YMinusi_mse3_po[i] = sum(mse_cumlogit_po3[-i])/(nsim-1)
+  MC_YMinusi_mse4_po[i] = sum(mse_cumlogit_po4[-i])/(nsim-1)
+  MC_YMinusi_mse5_po[i] = sum(mse_cumlogit_po5[-i])/(nsim-1)
+  MC_YMinusi_mse6_po[i] = sum(mse_cumlogit_po6[-i])/(nsim-1)
+  MC_YMinusi_mse7_po[i] = sum(mse_cumlogit_po7[-i])/(nsim-1)
+  MC_YMinusi_mse8_po[i] = sum(mse_cumlogit_po8[-i])/(nsim-1)
+  MC_YMinusi_mse9_po[i] = sum(mse_cumlogit_po9[-i])/(nsim-1)
+  MC_YMinusi_mse10_po[i] = sum(mse_cumlogit_po10[-i])/(nsim-1)
+
+
+  MC_YMinusi_mse1_ppo[i] = sum(mse_cumlogit_ppo1[-i])/(nsim-1)
+  MC_YMinusi_mse2_ppo[i] = sum(mse_cumlogit_ppo2[-i])/(nsim-1)
+  MC_YMinusi_mse3_ppo[i] = sum(mse_cumlogit_ppo3[-i])/(nsim-1)
+  MC_YMinusi_mse4_ppo[i] = sum(mse_cumlogit_ppo4[-i])/(nsim-1)
+  MC_YMinusi_mse5_ppo[i] = sum(mse_cumlogit_ppo5[-i])/(nsim-1)
+  MC_YMinusi_mse6_ppo[i] = sum(mse_cumlogit_ppo6[-i])/(nsim-1)
+  MC_YMinusi_mse7_ppo[i] = sum(mse_cumlogit_ppo7[-i])/(nsim-1)
+  MC_YMinusi_mse8_ppo[i] = sum(mse_cumlogit_ppo8[-i])/(nsim-1)
+  MC_YMinusi_mse9_ppo[i] = sum(mse_cumlogit_ppo9[-i])/(nsim-1)
+  MC_YMinusi_mse10_ppo[i] = sum(mse_cumlogit_ppo10[-i])/(nsim-1)
+
+  
+  MC_YMinusi_mse1_cpo[i] = sum(mse_cumlogit_cpo1[-i])/(nsim-1)
+  MC_YMinusi_mse2_cpo[i] = sum(mse_cumlogit_cpo2[-i])/(nsim-1)
+  MC_YMinusi_mse3_cpo[i] = sum(mse_cumlogit_cpo3[-i])/(nsim-1)
+  MC_YMinusi_mse4_cpo[i] = sum(mse_cumlogit_cpo4[-i])/(nsim-1)
+  MC_YMinusi_mse5_cpo[i] = sum(mse_cumlogit_cpo5[-i])/(nsim-1)
+  MC_YMinusi_mse6_cpo[i] = sum(mse_cumlogit_cpo6[-i])/(nsim-1)
+  MC_YMinusi_mse7_cpo[i] = sum(mse_cumlogit_cpo7[-i])/(nsim-1)
+  MC_YMinusi_mse8_cpo[i] = sum(mse_cumlogit_cpo8[-i])/(nsim-1)
+  MC_YMinusi_mse9_cpo[i] = sum(mse_cumlogit_cpo9[-i])/(nsim-1)
+  MC_YMinusi_mse10_cpo[i] = sum(mse_cumlogit_cpo10[-i])/(nsim-1)
+
+  
+  MC_YMinusi_mse1_lcpo[i] = sum(mse_cumlogit_lcpo1[-i])/(nsim-1)
+  MC_YMinusi_mse2_lcpo[i] = sum(mse_cumlogit_lcpo2[-i])/(nsim-1)
+  MC_YMinusi_mse3_lcpo[i] = sum(mse_cumlogit_lcpo3[-i])/(nsim-1)
+  MC_YMinusi_mse4_lcpo[i] = sum(mse_cumlogit_lcpo4[-i])/(nsim-1)
+  MC_YMinusi_mse5_lcpo[i] = sum(mse_cumlogit_lcpo5[-i])/(nsim-1)
+  MC_YMinusi_mse6_lcpo[i] = sum(mse_cumlogit_lcpo6[-i])/(nsim-1)
+  MC_YMinusi_mse7_lcpo[i] = sum(mse_cumlogit_lcpo7[-i])/(nsim-1)
+  MC_YMinusi_mse8_lcpo[i] = sum(mse_cumlogit_lcpo8[-i])/(nsim-1)
+  MC_YMinusi_mse9_lcpo[i] = sum(mse_cumlogit_lcpo9[-i])/(nsim-1)
+  MC_YMinusi_mse10_lcpo[i] = sum(mse_cumlogit_lcpo10[-i])/(nsim-1)
+
+  MC_YMinusi_mse1_lr[i] = sum(mse_cumlogit_lr1[-i])/(nsim-1)
+  MC_YMinusi_mse2_lr[i] = sum(mse_cumlogit_lr2[-i])/(nsim-1) 
+  MC_YMinusi_mse3_lr[i] = sum(mse_cumlogit_lr3[-i])/(nsim-1) 
+  MC_YMinusi_mse4_lr[i] = sum(mse_cumlogit_lr4[-i])/(nsim-1) 
+  MC_YMinusi_mse5_lr[i] = sum(mse_cumlogit_lr5[-i])/(nsim-1) 
+  MC_YMinusi_mse6_lr[i] = sum(mse_cumlogit_lr6[-i])/(nsim-1) 
+  MC_YMinusi_mse7_lr[i] = sum(mse_cumlogit_lr7[-i])/(nsim-1) 
+  MC_YMinusi_mse8_lr[i] = sum(mse_cumlogit_lr8[-i])/(nsim-1) 
+  MC_YMinusi_mse9_lr[i] = sum(mse_cumlogit_lr9[-i])/(nsim-1) 
+  MC_YMinusi_mse10_lr[i] = sum(mse_cumlogit_lr10[-i])/(nsim-1) 
+}
+
+bar_MC_YMinusi_mse1_po = sum(MC_YMinusi_mse1_po)/nsim
+bar_MC_YMinusi_mse2_po = sum(MC_YMinusi_mse2_po)/nsim
+bar_MC_YMinusi_mse3_po = sum(MC_YMinusi_mse3_po)/nsim
+bar_MC_YMinusi_mse4_po = sum(MC_YMinusi_mse4_po)/nsim
+bar_MC_YMinusi_mse5_po = sum(MC_YMinusi_mse5_po)/nsim
+bar_MC_YMinusi_mse6_po = sum(MC_YMinusi_mse6_po)/nsim
+bar_MC_YMinusi_mse7_po = sum(MC_YMinusi_mse7_po)/nsim
+bar_MC_YMinusi_mse8_po = sum(MC_YMinusi_mse8_po)/nsim
+bar_MC_YMinusi_mse9_po = sum(MC_YMinusi_mse9_po)/nsim
+bar_MC_YMinusi_mse10_po = sum(MC_YMinusi_mse10_po)/nsim
+
+bar_MC_YMinusi_mse1_ppo = sum(MC_YMinusi_mse1_ppo)/nsim
+bar_MC_YMinusi_mse2_ppo = sum(MC_YMinusi_mse2_ppo)/nsim
+bar_MC_YMinusi_mse3_ppo = sum(MC_YMinusi_mse3_ppo)/nsim
+bar_MC_YMinusi_mse4_ppo = sum(MC_YMinusi_mse4_ppo)/nsim
+bar_MC_YMinusi_mse5_ppo = sum(MC_YMinusi_mse5_ppo)/nsim
+bar_MC_YMinusi_mse6_ppo = sum(MC_YMinusi_mse6_ppo)/nsim
+bar_MC_YMinusi_mse7_ppo = sum(MC_YMinusi_mse7_ppo)/nsim
+bar_MC_YMinusi_mse8_ppo = sum(MC_YMinusi_mse8_ppo)/nsim
+bar_MC_YMinusi_mse9_ppo = sum(MC_YMinusi_mse9_ppo)/nsim
+bar_MC_YMinusi_mse10_ppo = sum(MC_YMinusi_mse10_ppo)/nsim
+
+
+bar_MC_YMinusi_mse1_cpo = sum(MC_YMinusi_mse1_cpo)/nsim
+bar_MC_YMinusi_mse2_cpo = sum(MC_YMinusi_mse2_cpo)/nsim
+bar_MC_YMinusi_mse3_cpo = sum(MC_YMinusi_mse3_cpo)/nsim
+bar_MC_YMinusi_mse4_cpo = sum(MC_YMinusi_mse4_cpo)/nsim
+bar_MC_YMinusi_mse5_cpo = sum(MC_YMinusi_mse5_cpo)/nsim
+bar_MC_YMinusi_mse6_cpo = sum(MC_YMinusi_mse6_cpo)/nsim
+bar_MC_YMinusi_mse7_cpo = sum(MC_YMinusi_mse7_cpo)/nsim
+bar_MC_YMinusi_mse8_cpo = sum(MC_YMinusi_mse8_cpo)/nsim
+bar_MC_YMinusi_mse9_cpo = sum(MC_YMinusi_mse9_cpo)/nsim
+bar_MC_YMinusi_mse10_cpo = sum(MC_YMinusi_mse10_cpo)/nsim
+
+bar_MC_YMinusi_mse1_lcpo = sum(MC_YMinusi_mse1_lcpo)/nsim
+bar_MC_YMinusi_mse2_lcpo = sum(MC_YMinusi_mse2_lcpo)/nsim
+bar_MC_YMinusi_mse3_lcpo = sum(MC_YMinusi_mse3_lcpo)/nsim
+bar_MC_YMinusi_mse4_lcpo = sum(MC_YMinusi_mse4_lcpo)/nsim
+bar_MC_YMinusi_mse5_lcpo = sum(MC_YMinusi_mse5_lcpo)/nsim
+bar_MC_YMinusi_mse6_lcpo = sum(MC_YMinusi_mse6_lcpo)/nsim
+bar_MC_YMinusi_mse7_lcpo = sum(MC_YMinusi_mse7_lcpo)/nsim
+bar_MC_YMinusi_mse8_lcpo = sum(MC_YMinusi_mse8_lcpo)/nsim
+bar_MC_YMinusi_mse9_lcpo = sum(MC_YMinusi_mse9_lcpo)/nsim
+bar_MC_YMinusi_mse10_lcpo = sum(MC_YMinusi_mse10_lcpo)/nsim
+
+bar_MC_YMinusi_mse1_lr = sum(MC_YMinusi_mse1_lr)/nsim
+bar_MC_YMinusi_mse2_lr = sum(MC_YMinusi_mse2_lr)/nsim
+bar_MC_YMinusi_mse3_lr = sum(MC_YMinusi_mse3_lr)/nsim
+bar_MC_YMinusi_mse4_lr = sum(MC_YMinusi_mse4_lr)/nsim
+bar_MC_YMinusi_mse5_lr = sum(MC_YMinusi_mse5_lr)/nsim
+bar_MC_YMinusi_mse6_lr = sum(MC_YMinusi_mse6_lr)/nsim
+bar_MC_YMinusi_mse7_lr = sum(MC_YMinusi_mse7_lr)/nsim
+bar_MC_YMinusi_mse8_lr = sum(MC_YMinusi_mse8_lr)/nsim
+bar_MC_YMinusi_mse9_lr = sum(MC_YMinusi_mse9_lr)/nsim
+bar_MC_YMinusi_mse10_lr = sum(MC_YMinusi_mse10_lr)/nsim
+
+
+MCE_JK_mse1_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_po-bar_MC_YMinusi_mse1_po)^2))
+MCE_JK_mse2_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_po-bar_MC_YMinusi_mse2_po)^2))
+MCE_JK_mse3_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse3_po-bar_MC_YMinusi_mse3_po)^2))
+MCE_JK_mse4_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse4_po-bar_MC_YMinusi_mse4_po)^2))
+MCE_JK_mse5_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse5_po-bar_MC_YMinusi_mse5_po)^2))
+MCE_JK_mse6_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse6_po-bar_MC_YMinusi_mse6_po)^2))
+MCE_JK_mse7_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse7_po-bar_MC_YMinusi_mse7_po)^2))
+MCE_JK_mse8_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse8_po-bar_MC_YMinusi_mse8_po)^2))
+MCE_JK_mse9_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse9_po-bar_MC_YMinusi_mse9_po)^2))
+MCE_JK_mse10_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse10_po-bar_MC_YMinusi_mse10_po)^2))
+
+
+MCE_JK_mse1_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_ppo-bar_MC_YMinusi_mse1_ppo)^2))
+MCE_JK_mse2_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_ppo-bar_MC_YMinusi_mse2_ppo)^2))
+MCE_JK_mse3_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse3_ppo-bar_MC_YMinusi_mse3_ppo)^2))
+MCE_JK_mse4_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse4_ppo-bar_MC_YMinusi_mse4_ppo)^2))
+MCE_JK_mse5_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse5_ppo-bar_MC_YMinusi_mse5_ppo)^2))
+MCE_JK_mse6_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse6_ppo-bar_MC_YMinusi_mse6_ppo)^2))
+MCE_JK_mse7_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse7_ppo-bar_MC_YMinusi_mse7_ppo)^2))
+MCE_JK_mse8_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse8_ppo-bar_MC_YMinusi_mse8_ppo)^2))
+MCE_JK_mse9_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse9_ppo-bar_MC_YMinusi_mse9_ppo)^2))
+MCE_JK_mse10_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse10_ppo-bar_MC_YMinusi_mse10_ppo)^2))
+
+
+MCE_JK_mse1_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_cpo-bar_MC_YMinusi_mse1_cpo)^2))
+MCE_JK_mse2_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_cpo-bar_MC_YMinusi_mse2_cpo)^2))
+MCE_JK_mse3_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse3_cpo-bar_MC_YMinusi_mse3_cpo)^2))
+MCE_JK_mse4_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse4_cpo-bar_MC_YMinusi_mse4_cpo)^2))
+MCE_JK_mse5_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse5_cpo-bar_MC_YMinusi_mse5_cpo)^2))
+MCE_JK_mse6_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse6_cpo-bar_MC_YMinusi_mse6_cpo)^2))
+MCE_JK_mse7_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse7_cpo-bar_MC_YMinusi_mse7_cpo)^2))
+MCE_JK_mse8_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse8_cpo-bar_MC_YMinusi_mse8_cpo)^2))
+MCE_JK_mse9_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse9_cpo-bar_MC_YMinusi_mse9_cpo)^2))
+MCE_JK_mse10_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse10_cpo-bar_MC_YMinusi_mse10_cpo)^2))
+
+
+MCE_JK_mse1_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_lcpo-bar_MC_YMinusi_mse1_lcpo)^2))
+MCE_JK_mse2_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_lcpo-bar_MC_YMinusi_mse2_lcpo)^2))
+MCE_JK_mse3_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse3_lcpo-bar_MC_YMinusi_mse3_lcpo)^2))
+MCE_JK_mse4_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse4_lcpo-bar_MC_YMinusi_mse4_lcpo)^2))
+MCE_JK_mse5_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse5_lcpo-bar_MC_YMinusi_mse5_lcpo)^2))
+MCE_JK_mse6_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse6_lcpo-bar_MC_YMinusi_mse6_lcpo)^2))
+MCE_JK_mse7_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse7_lcpo-bar_MC_YMinusi_mse7_lcpo)^2))
+MCE_JK_mse8_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse8_lcpo-bar_MC_YMinusi_mse8_lcpo)^2))
+MCE_JK_mse9_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse9_lcpo-bar_MC_YMinusi_mse9_lcpo)^2))
+MCE_JK_mse10_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse10_lcpo-bar_MC_YMinusi_mse10_lcpo)^2))
+
+
+MCE_JK_mse1_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse1_lr-bar_MC_YMinusi_mse1_lr)^2))
+MCE_JK_mse2_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse2_lr-bar_MC_YMinusi_mse2_lr)^2))
+MCE_JK_mse3_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse3_lr-bar_MC_YMinusi_mse3_lr)^2))
+MCE_JK_mse4_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse4_lr-bar_MC_YMinusi_mse4_lr)^2))
+MCE_JK_mse5_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse5_lr-bar_MC_YMinusi_mse5_lr)^2))
+MCE_JK_mse6_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse6_lr-bar_MC_YMinusi_mse6_lr)^2))
+MCE_JK_mse7_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse7_lr-bar_MC_YMinusi_mse7_lr)^2))
+MCE_JK_mse8_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse8_lr-bar_MC_YMinusi_mse8_lr)^2))
+MCE_JK_mse9_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse9_lr-bar_MC_YMinusi_mse9_lr)^2))
+MCE_JK_mse10_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_mse10_lr-bar_MC_YMinusi_mse10_lr)^2))
+
+```
+
+
+## Relative bias across each model and cumulative logit 
+```{r}
+#PO model 
+relbias_po1 <- (exp(bias_po1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po2 <- (exp(bias_po2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po3 <- (exp(bias_po3+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po4 <- (exp(bias_po4+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po5 <- (exp(bias_po5+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po6 <- (exp(bias_po6+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po7 <- (exp(bias_po7+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po8 <- (exp(bias_po8+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po9 <- (exp(bias_po9+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_po10 <- (exp(bias_po10+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+# PPO model 
+relbias_ppo1 <- (exp(bias_ppo1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo2 <- (exp(bias_ppo2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo3 <- (exp(bias_ppo3+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo4 <- (exp(bias_ppo4+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo5 <- (exp(bias_ppo5+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo6 <- (exp(bias_ppo6+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo7 <- (exp(bias_ppo7+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo8 <- (exp(bias_ppo8+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo9 <- (exp(bias_ppo9+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_ppo10 <- (exp(bias_ppo10+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+
+# Constrained - divergent 
+relbias_cpo1 <- (exp(bias_cpo1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo2 <- (exp(bias_cpo2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo3 <- (exp(bias_cpo3+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo4 <- (exp(bias_cpo4+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo5 <- (exp(bias_cpo5+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo6 <- (exp(bias_cpo6+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo7 <- (exp(bias_cpo7+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo8 <- (exp(bias_cpo8+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo9 <- (exp(bias_cpo9+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_cpo10 <- (exp(bias_cpo10+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+
+# Constrained - linear 
+relbias_lcpo1 <- (exp(bias_lcpo1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo2 <- (exp(bias_lcpo2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo3 <- (exp(bias_lcpo3+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo4 <- (exp(bias_lcpo4+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo5 <- (exp(bias_lcpo5+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo6 <- (exp(bias_lcpo6+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo7 <- (exp(bias_lcpo7+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo8 <- (exp(bias_lcpo8+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo9 <- (exp(bias_lcpo9+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lcpo10 <- (exp(bias_lcpo10+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+# Logistic 
+relbias_lr1 <- (exp(bias_lr1+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr2 <- (exp(bias_lr2+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr3 <- (exp(bias_lr3+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr4 <- (exp(bias_lr4+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr5 <- (exp(bias_lr5+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr6 <- (exp(bias_lr6+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr7 <- (exp(bias_lr7+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr8 <- (exp(bias_lr8+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr9 <- (exp(bias_lr9+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+relbias_lr10 <- (exp(bias_lr10+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+```
+
+
+## Compute jackknife-after-bootstrap Monte Carlo standard error estimation -  RELATIVE BIAS 
+## These should be <0.05, otherwise increase n_sim 
+```{r}
+nsim <- 1000
+
+MC_YMinusi_relbias1_po <- MC_YMinusi_relbias2_po <- MC_YMinusi_relbias3_po <- MC_YMinusi_relbias4_po <- MC_YMinusi_relbias5_po <- MC_YMinusi_relbias6_po <- MC_YMinusi_relbias7_po <- MC_YMinusi_relbias8_po <- MC_YMinusi_relbias9_po <- MC_YMinusi_relbias10_po <- MC_YMinusi_relbias1_ppo <- MC_YMinusi_relbias2_ppo <- MC_YMinusi_relbias3_ppo <- MC_YMinusi_relbias4_ppo <- MC_YMinusi_relbias5_ppo <- MC_YMinusi_relbias6_ppo <- MC_YMinusi_relbias7_ppo <- MC_YMinusi_relbias8_ppo <- MC_YMinusi_relbias9_ppo <- MC_YMinusi_relbias10_ppo <- MC_YMinusi_relbias1_cpo <- MC_YMinusi_relbias2_cpo <- MC_YMinusi_relbias3_cpo <- MC_YMinusi_relbias4_cpo <- MC_YMinusi_relbias5_cpo <- MC_YMinusi_relbias6_cpo <- MC_YMinusi_relbias7_cpo <- MC_YMinusi_relbias8_cpo <- MC_YMinusi_relbias9_cpo <- MC_YMinusi_relbias10_cpo <- MC_YMinusi_relbias1_lcpo <- MC_YMinusi_relbias2_lcpo <- MC_YMinusi_relbias3_lcpo <- MC_YMinusi_relbias4_lcpo <- MC_YMinusi_relbias5_lcpo <- MC_YMinusi_relbias6_lcpo <- MC_YMinusi_relbias7_lcpo <- MC_YMinusi_relbias8_lcpo <- MC_YMinusi_relbias9_lcpo <- MC_YMinusi_relbias10_lcpo <- MC_YMinusi_relbias1_lr <- MC_YMinusi_relbias2_lr <- MC_YMinusi_relbias3_lr <- MC_YMinusi_relbias4_lr <- MC_YMinusi_relbias5_lr <- MC_YMinusi_relbias6_lr <- MC_YMinusi_relbias7_lr <- MC_YMinusi_relbias8_lr <- MC_YMinusi_relbias9_lr <- MC_YMinusi_relbias10_lr <- numeric(nsim)
+
+for(i in 1:nsim){
+  MC_YMinusi_relbias1_po[i] = (exp(sum(bias_cumlogit_po1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_po[i] = (exp(sum(bias_cumlogit_po2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias3_po[i] = (exp(sum(bias_cumlogit_po3[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias4_po[i] = (exp(sum(bias_cumlogit_po4[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias5_po[i] = (exp(sum(bias_cumlogit_po5[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias6_po[i] = (exp(sum(bias_cumlogit_po6[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias7_po[i] = (exp(sum(bias_cumlogit_po7[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias8_po[i] = (exp(sum(bias_cumlogit_po8[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias9_po[i] = (exp(sum(bias_cumlogit_po9[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias10_po[i] = (exp(sum(bias_cumlogit_po10[-i])/(nsim-1)+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+  MC_YMinusi_relbias1_ppo[i] = (exp(sum(bias_cumlogit_ppo1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_ppo[i] = (exp(sum(bias_cumlogit_ppo2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias3_ppo[i] = (exp(sum(bias_cumlogit_ppo3[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias4_ppo[i] = (exp(sum(bias_cumlogit_ppo4[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias5_ppo[i] = (exp(sum(bias_cumlogit_ppo5[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias6_ppo[i] = (exp(sum(bias_cumlogit_ppo6[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias7_ppo[i] = (exp(sum(bias_cumlogit_ppo7[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias8_ppo[i] = (exp(sum(bias_cumlogit_ppo8[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias9_ppo[i] = (exp(sum(bias_cumlogit_ppo9[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias10_ppo[i] = (exp(sum(bias_cumlogit_ppo10[-i])/(nsim-1)+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+  
+  MC_YMinusi_relbias1_cpo[i] = (exp(sum(bias_cumlogit_cpo1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_cpo[i] = (exp(sum(bias_cumlogit_cpo2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias3_cpo[i] = (exp(sum(bias_cumlogit_cpo3[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias4_cpo[i] = (exp(sum(bias_cumlogit_cpo4[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias5_cpo[i] = (exp(sum(bias_cumlogit_cpo5[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias6_cpo[i] = (exp(sum(bias_cumlogit_cpo6[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias7_cpo[i] = (exp(sum(bias_cumlogit_cpo7[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias8_cpo[i] = (exp(sum(bias_cumlogit_cpo8[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias9_cpo[i] = (exp(sum(bias_cumlogit_cpo9[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias10_cpo[i] = (exp(sum(bias_cumlogit_cpo10[-i])/(nsim-1)+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+  
+  MC_YMinusi_relbias1_lcpo[i] = (exp(sum(bias_cumlogit_lcpo1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_lcpo[i] = (exp(sum(bias_cumlogit_lcpo2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias3_lcpo[i] = (exp(sum(bias_cumlogit_lcpo3[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias4_lcpo[i] = (exp(sum(bias_cumlogit_lcpo4[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias5_lcpo[i] = (exp(sum(bias_cumlogit_lcpo5[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias6_lcpo[i] = (exp(sum(bias_cumlogit_lcpo6[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias7_lcpo[i] = (exp(sum(bias_cumlogit_lcpo7[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias8_lcpo[i] = (exp(sum(bias_cumlogit_lcpo8[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias9_lcpo[i] = (exp(sum(bias_cumlogit_lcpo9[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias10_lcpo[i] = (exp(sum(bias_cumlogit_lcpo10[-i])/(nsim-1)+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+
+
+  MC_YMinusi_relbias1_lr[i] = (exp(sum(bias_cumlogit_lr1[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias2_lr[i] = (exp(sum(bias_cumlogit_lr2[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias3_lr[i] = (exp(sum(bias_cumlogit_lr3[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias4_lr[i] = (exp(sum(bias_cumlogit_lr4[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias5_lr[i] = (exp(sum(bias_cumlogit_lr5[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias6_lr[i] = (exp(sum(bias_cumlogit_lr6[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias7_lr[i] = (exp(sum(bias_cumlogit_lr7[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias8_lr[i] = (exp(sum(bias_cumlogit_lr8[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias9_lr[i] = (exp(sum(bias_cumlogit_lr9[-i])/(nsim-1) + log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+  MC_YMinusi_relbias10_lr[i] = (exp(sum(bias_cumlogit_lr10[-i])/(nsim-1)+log(1.1))-exp(log(1.1)))/(exp(log(1.1)))
+}
+
+bar_MC_YMinusi_relbias1_po = sum(MC_YMinusi_relbias1_po)/nsim
+bar_MC_YMinusi_relbias2_po = sum(MC_YMinusi_relbias2_po)/nsim
+bar_MC_YMinusi_relbias3_po = sum(MC_YMinusi_relbias3_po)/nsim
+bar_MC_YMinusi_relbias4_po = sum(MC_YMinusi_relbias4_po)/nsim
+bar_MC_YMinusi_relbias5_po = sum(MC_YMinusi_relbias5_po)/nsim
+bar_MC_YMinusi_relbias6_po = sum(MC_YMinusi_relbias6_po)/nsim
+bar_MC_YMinusi_relbias7_po = sum(MC_YMinusi_relbias7_po)/nsim
+bar_MC_YMinusi_relbias8_po = sum(MC_YMinusi_relbias8_po)/nsim
+bar_MC_YMinusi_relbias9_po = sum(MC_YMinusi_relbias9_po)/nsim
+bar_MC_YMinusi_relbias10_po = sum(MC_YMinusi_relbias10_po)/nsim
+
+bar_MC_YMinusi_relbias1_ppo = sum(MC_YMinusi_relbias1_ppo)/nsim
+bar_MC_YMinusi_relbias2_ppo = sum(MC_YMinusi_relbias2_ppo)/nsim
+bar_MC_YMinusi_relbias3_ppo = sum(MC_YMinusi_relbias3_ppo)/nsim
+bar_MC_YMinusi_relbias4_ppo = sum(MC_YMinusi_relbias4_ppo)/nsim
+bar_MC_YMinusi_relbias5_ppo = sum(MC_YMinusi_relbias5_ppo)/nsim
+bar_MC_YMinusi_relbias6_ppo = sum(MC_YMinusi_relbias6_ppo)/nsim
+bar_MC_YMinusi_relbias7_ppo = sum(MC_YMinusi_relbias7_ppo)/nsim
+bar_MC_YMinusi_relbias8_ppo = sum(MC_YMinusi_relbias8_ppo)/nsim
+bar_MC_YMinusi_relbias9_ppo = sum(MC_YMinusi_relbias9_ppo)/nsim
+bar_MC_YMinusi_relbias10_ppo = sum(MC_YMinusi_relbias10_ppo)/nsim
+
+bar_MC_YMinusi_relbias1_cpo = sum(MC_YMinusi_relbias1_cpo)/nsim
+bar_MC_YMinusi_relbias2_cpo = sum(MC_YMinusi_relbias2_cpo)/nsim
+bar_MC_YMinusi_relbias3_cpo = sum(MC_YMinusi_relbias3_cpo)/nsim
+bar_MC_YMinusi_relbias4_cpo = sum(MC_YMinusi_relbias4_cpo)/nsim
+bar_MC_YMinusi_relbias5_cpo = sum(MC_YMinusi_relbias5_cpo)/nsim
+bar_MC_YMinusi_relbias6_cpo = sum(MC_YMinusi_relbias6_cpo)/nsim
+bar_MC_YMinusi_relbias7_cpo = sum(MC_YMinusi_relbias7_cpo)/nsim
+bar_MC_YMinusi_relbias8_cpo = sum(MC_YMinusi_relbias8_cpo)/nsim
+bar_MC_YMinusi_relbias9_cpo = sum(MC_YMinusi_relbias9_cpo)/nsim
+bar_MC_YMinusi_relbias10_cpo = sum(MC_YMinusi_relbias10_cpo)/nsim
+
+
+bar_MC_YMinusi_relbias1_lcpo = sum(MC_YMinusi_relbias1_lcpo)/nsim
+bar_MC_YMinusi_relbias2_lcpo = sum(MC_YMinusi_relbias2_lcpo)/nsim
+bar_MC_YMinusi_relbias3_lcpo = sum(MC_YMinusi_relbias3_lcpo)/nsim
+bar_MC_YMinusi_relbias4_lcpo = sum(MC_YMinusi_relbias4_lcpo)/nsim
+bar_MC_YMinusi_relbias5_lcpo = sum(MC_YMinusi_relbias5_lcpo)/nsim
+bar_MC_YMinusi_relbias6_lcpo = sum(MC_YMinusi_relbias6_lcpo)/nsim
+bar_MC_YMinusi_relbias7_lcpo = sum(MC_YMinusi_relbias7_lcpo)/nsim
+bar_MC_YMinusi_relbias8_lcpo = sum(MC_YMinusi_relbias8_lcpo)/nsim
+bar_MC_YMinusi_relbias9_lcpo = sum(MC_YMinusi_relbias9_lcpo)/nsim
+bar_MC_YMinusi_relbias10_lcpo = sum(MC_YMinusi_relbias10_lcpo)/nsim
+
+bar_MC_YMinusi_relbias1_lr = sum(MC_YMinusi_relbias1_lr)/nsim
+bar_MC_YMinusi_relbias2_lr = sum(MC_YMinusi_relbias2_lr)/nsim
+bar_MC_YMinusi_relbias3_lr = sum(MC_YMinusi_relbias3_lr)/nsim
+bar_MC_YMinusi_relbias4_lr = sum(MC_YMinusi_relbias4_lr)/nsim
+bar_MC_YMinusi_relbias5_lr = sum(MC_YMinusi_relbias5_lr)/nsim
+bar_MC_YMinusi_relbias6_lr = sum(MC_YMinusi_relbias6_lr)/nsim
+bar_MC_YMinusi_relbias7_lr = sum(MC_YMinusi_relbias7_lr)/nsim
+bar_MC_YMinusi_relbias8_lr = sum(MC_YMinusi_relbias8_lr)/nsim
+bar_MC_YMinusi_relbias9_lr = sum(MC_YMinusi_relbias9_lr)/nsim
+bar_MC_YMinusi_relbias10_lr = sum(MC_YMinusi_relbias10_lr)/nsim
+
+MCE_JK_relbias1_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_po-bar_MC_YMinusi_relbias1_po)^2))
+MCE_JK_relbias2_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_po-bar_MC_YMinusi_relbias2_po)^2))
+MCE_JK_relbias3_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias3_po-bar_MC_YMinusi_relbias3_po)^2))
+MCE_JK_relbias4_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias4_po-bar_MC_YMinusi_relbias4_po)^2))
+MCE_JK_relbias5_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias5_po-bar_MC_YMinusi_relbias5_po)^2))
+MCE_JK_relbias6_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias6_po-bar_MC_YMinusi_relbias6_po)^2))
+MCE_JK_relbias7_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias7_po-bar_MC_YMinusi_relbias7_po)^2))
+MCE_JK_relbias8_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias8_po-bar_MC_YMinusi_relbias8_po)^2))
+MCE_JK_relbias9_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias9_po-bar_MC_YMinusi_relbias9_po)^2))
+MCE_JK_relbias10_po = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias10_po-bar_MC_YMinusi_relbias10_po)^2))
+
+MCE_JK_relbias1_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_ppo-bar_MC_YMinusi_relbias1_ppo)^2))
+MCE_JK_relbias2_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_ppo-bar_MC_YMinusi_relbias2_ppo)^2))
+MCE_JK_relbias3_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias3_ppo-bar_MC_YMinusi_relbias3_ppo)^2))
+MCE_JK_relbias4_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias4_ppo-bar_MC_YMinusi_relbias4_ppo)^2))
+MCE_JK_relbias5_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias5_ppo-bar_MC_YMinusi_relbias5_ppo)^2))
+MCE_JK_relbias6_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias6_ppo-bar_MC_YMinusi_relbias6_ppo)^2))
+MCE_JK_relbias7_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias7_ppo-bar_MC_YMinusi_relbias7_ppo)^2))
+MCE_JK_relbias8_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias8_ppo-bar_MC_YMinusi_relbias8_ppo)^2))
+MCE_JK_relbias9_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias9_ppo-bar_MC_YMinusi_relbias9_ppo)^2))
+MCE_JK_relbias10_ppo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias10_ppo-bar_MC_YMinusi_relbias10_ppo)^2))
+
+MCE_JK_relbias1_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_cpo-bar_MC_YMinusi_relbias1_cpo)^2))
+MCE_JK_relbias2_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_cpo-bar_MC_YMinusi_relbias2_cpo)^2))
+MCE_JK_relbias3_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias3_cpo-bar_MC_YMinusi_relbias3_cpo)^2))
+MCE_JK_relbias4_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias4_cpo-bar_MC_YMinusi_relbias4_cpo)^2))
+MCE_JK_relbias5_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias5_cpo-bar_MC_YMinusi_relbias5_cpo)^2))
+MCE_JK_relbias6_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias6_cpo-bar_MC_YMinusi_relbias6_cpo)^2))
+MCE_JK_relbias7_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias7_cpo-bar_MC_YMinusi_relbias7_cpo)^2))
+MCE_JK_relbias8_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias8_cpo-bar_MC_YMinusi_relbias8_cpo)^2))
+MCE_JK_relbias9_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias9_cpo-bar_MC_YMinusi_relbias9_cpo)^2))
+MCE_JK_relbias10_cpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias10_cpo-bar_MC_YMinusi_relbias10_cpo)^2))
+
+MCE_JK_relbias1_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_lcpo-bar_MC_YMinusi_relbias1_lcpo)^2))
+MCE_JK_relbias2_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_lcpo-bar_MC_YMinusi_relbias2_lcpo)^2))
+MCE_JK_relbias3_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias3_lcpo-bar_MC_YMinusi_relbias3_lcpo)^2))
+MCE_JK_relbias4_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias4_lcpo-bar_MC_YMinusi_relbias4_lcpo)^2))
+MCE_JK_relbias5_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias5_lcpo-bar_MC_YMinusi_relbias5_lcpo)^2))
+MCE_JK_relbias6_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias6_lcpo-bar_MC_YMinusi_relbias6_lcpo)^2))
+MCE_JK_relbias7_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias7_lcpo-bar_MC_YMinusi_relbias7_lcpo)^2))
+MCE_JK_relbias8_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias8_lcpo-bar_MC_YMinusi_relbias8_lcpo)^2))
+MCE_JK_relbias9_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias9_lcpo-bar_MC_YMinusi_relbias9_lcpo)^2))
+MCE_JK_relbias10_lcpo = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias10_lcpo-bar_MC_YMinusi_relbias10_lcpo)^2))
+
+MCE_JK_relbias1_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias1_lr-bar_MC_YMinusi_relbias1_lr)^2))
+MCE_JK_relbias2_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias2_lr-bar_MC_YMinusi_relbias2_lr)^2))
+MCE_JK_relbias3_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias3_lr-bar_MC_YMinusi_relbias3_lr)^2))
+MCE_JK_relbias4_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias4_lr-bar_MC_YMinusi_relbias4_lr)^2))
+MCE_JK_relbias5_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias5_lr-bar_MC_YMinusi_relbias5_lr)^2))
+MCE_JK_relbias6_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias6_lr-bar_MC_YMinusi_relbias6_lr)^2))
+MCE_JK_relbias7_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias7_lr-bar_MC_YMinusi_relbias7_lr)^2))
+MCE_JK_relbias8_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias8_lr-bar_MC_YMinusi_relbias8_lr)^2))
+MCE_JK_relbias9_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias9_lr-bar_MC_YMinusi_relbias9_lr)^2))
+MCE_JK_relbias10_lr = sqrt(((nsim-1)/nsim)*sum((MC_YMinusi_relbias10_lr-bar_MC_YMinusi_relbias10_lr)^2))
+
+```
+
+
+## Generate data frame - bias, SE, coverage, SE, MSE, SE, model, cum logit  
+```{r}
+bias <- c(bias_po1,bias_po2,bias_po3,bias_po4,bias_po5,bias_po6,bias_po7,bias_po8,bias_po9,bias_po10,bias_ppo1,bias_ppo2,bias_ppo3,bias_ppo4,bias_ppo5,bias_ppo6,bias_ppo7,bias_ppo8,bias_ppo9,bias_ppo10,bias_cpo1,bias_cpo2,bias_cpo3,bias_cpo4,bias_cpo5,bias_cpo6,bias_cpo7,bias_cpo8,bias_cpo9,bias_cpo10,bias_lcpo1,bias_lcpo2,bias_lcpo3,bias_lcpo4,bias_lcpo5,bias_lcpo6,bias_lcpo7,bias_lcpo8,bias_lcpo9,bias_lcpo10,bias_lr1, bias_lr2, bias_lr3, bias_lr4, bias_lr5, bias_lr6, bias_lr7, bias_lr8, bias_lr9, bias_lr10)
+
+bias_se <- c(MCE_JK_bias1_po,MCE_JK_bias2_po,MCE_JK_bias3_po,MCE_JK_bias4_po,MCE_JK_bias5_po,MCE_JK_bias6_po,MCE_JK_bias7_po,MCE_JK_bias8_po,MCE_JK_bias9_po,MCE_JK_bias10_po,MCE_JK_bias1_ppo,MCE_JK_bias2_ppo,MCE_JK_bias3_ppo,MCE_JK_bias4_ppo,MCE_JK_bias5_ppo,MCE_JK_bias6_ppo,MCE_JK_bias7_ppo,MCE_JK_bias8_ppo,MCE_JK_bias9_ppo,MCE_JK_bias10_ppo,MCE_JK_bias1_cpo,MCE_JK_bias2_cpo,MCE_JK_bias3_cpo,MCE_JK_bias4_cpo,MCE_JK_bias5_cpo,MCE_JK_bias6_cpo,MCE_JK_bias7_cpo,MCE_JK_bias8_cpo,MCE_JK_bias9_cpo,MCE_JK_bias10_cpo,MCE_JK_bias1_lcpo,MCE_JK_bias2_lcpo,MCE_JK_bias3_lcpo,MCE_JK_bias4_lcpo,MCE_JK_bias5_lcpo,MCE_JK_bias6_lcpo,MCE_JK_bias7_lcpo,MCE_JK_bias8_lcpo,MCE_JK_bias9_lcpo,MCE_JK_bias10_lcpo,MCE_JK_bias1_lr,MCE_JK_bias2_lr,MCE_JK_bias3_lr,MCE_JK_bias4_lr,MCE_JK_bias5_lr,MCE_JK_bias6_lr,MCE_JK_bias7_lr,MCE_JK_bias8_lr,MCE_JK_bias9_lr,MCE_JK_bias10_lr)
+
+coverage <- c(cv_po1, cv_po2, cv_po3, cv_po4, cv_po5, cv_po6, cv_po7, cv_po8, cv_po9, cv_po10, cv_ppo1, cv_ppo2, cv_ppo3, cv_ppo4, cv_ppo5, cv_ppo6, cv_ppo7, cv_ppo8, cv_ppo9, cv_ppo10, cv_cpo1, cv_cpo2, cv_cpo3, cv_cpo4, cv_cpo5, cv_cpo6, cv_cpo7, cv_cpo8, cv_cpo9, cv_cpo10, cv_lcpo1, cv_lcpo2, cv_lcpo3, cv_lcpo4, cv_lcpo5, cv_lcpo6, cv_lcpo7, cv_lcpo8, cv_lcpo9, cv_lcpo10, cv_lr1, cv_lr2, cv_lr3, cv_lr4, cv_lr5, cv_lr6, cv_lr7, cv_lr8, cv_lr9, cv_lr10)
+
+coverage_se <- c(MCE_JK_cv1_po,MCE_JK_cv2_po,MCE_JK_cv3_po,MCE_JK_cv4_po,MCE_JK_cv5_po,MCE_JK_cv6_po,MCE_JK_cv7_po,MCE_JK_cv8_po,MCE_JK_cv9_po,MCE_JK_cv10_po,MCE_JK_cv1_ppo,MCE_JK_cv2_ppo,MCE_JK_cv3_ppo,MCE_JK_cv4_ppo,MCE_JK_cv5_ppo,MCE_JK_cv6_ppo,MCE_JK_cv7_ppo,MCE_JK_cv8_ppo,MCE_JK_cv9_ppo,MCE_JK_cv10_ppo,MCE_JK_cv1_cpo,MCE_JK_cv2_cpo,MCE_JK_cv3_cpo,MCE_JK_cv4_cpo,MCE_JK_cv5_cpo,MCE_JK_cv6_cpo,MCE_JK_cv7_cpo,MCE_JK_cv8_cpo,MCE_JK_cv9_cpo,MCE_JK_cv10_cpo,MCE_JK_cv1_lcpo,MCE_JK_cv2_lcpo,MCE_JK_cv3_lcpo,MCE_JK_cv4_lcpo,MCE_JK_cv5_lcpo,MCE_JK_cv6_lcpo,MCE_JK_cv7_lcpo,MCE_JK_cv8_lcpo,MCE_JK_cv9_lcpo,MCE_JK_cv10_lcpo,MCE_JK_cv1_lr,MCE_JK_cv2_lr,MCE_JK_cv3_lr,MCE_JK_cv4_lr,MCE_JK_cv5_lr,MCE_JK_cv6_lr,MCE_JK_cv7_lr,MCE_JK_cv8_lr,MCE_JK_cv9_lr,MCE_JK_cv10_lr)
+
+mse <- c(mse_po1, mse_po2, mse_po3, mse_po4, mse_po5, mse_po6, mse_po7, mse_po8, mse_po9, mse_po10, mse_ppo1, mse_ppo2, mse_ppo3, mse_ppo4, mse_ppo5, mse_ppo6, mse_ppo7, mse_ppo8, mse_ppo9, mse_ppo10, mse_cpo1, mse_cpo2, mse_cpo3, mse_cpo4, mse_cpo5, mse_cpo6, mse_cpo7, mse_cpo8, mse_cpo9, mse_cpo10, mse_lcpo1, mse_lcpo2, mse_lcpo3, mse_lcpo4, mse_lcpo5, mse_lcpo6, mse_lcpo7, mse_lcpo8, mse_lcpo9, mse_lcpo10, mse_lr1, mse_lr2, mse_lr3, mse_lr4, mse_lr5, mse_lr6, mse_lr7, mse_lr8, mse_lr9, mse_lr10)
+
+mse_se <- c(MCE_JK_mse1_po,MCE_JK_mse2_po,MCE_JK_mse3_po,MCE_JK_mse4_po,MCE_JK_mse5_po,MCE_JK_mse6_po,MCE_JK_mse7_po,MCE_JK_mse8_po,MCE_JK_mse9_po,MCE_JK_mse10_po,MCE_JK_mse1_ppo,MCE_JK_mse2_ppo,MCE_JK_mse3_ppo,MCE_JK_mse4_ppo,MCE_JK_mse5_ppo,MCE_JK_mse6_ppo,MCE_JK_mse7_ppo,MCE_JK_mse8_ppo,MCE_JK_mse9_ppo,MCE_JK_mse10_ppo,MCE_JK_mse1_cpo,MCE_JK_mse2_cpo,MCE_JK_mse3_cpo,MCE_JK_mse4_cpo,MCE_JK_mse5_cpo,MCE_JK_mse6_cpo,MCE_JK_mse7_cpo,MCE_JK_mse8_cpo,MCE_JK_mse9_cpo,MCE_JK_mse10_cpo,MCE_JK_mse1_lcpo,MCE_JK_mse2_lcpo,MCE_JK_mse3_lcpo,MCE_JK_mse4_lcpo,MCE_JK_mse5_lcpo,MCE_JK_mse6_lcpo,MCE_JK_mse7_lcpo,MCE_JK_mse8_lcpo,MCE_JK_mse9_lcpo,MCE_JK_mse10_lcpo,MCE_JK_mse1_lr,MCE_JK_mse2_lr,MCE_JK_mse3_lr,MCE_JK_mse4_lr,MCE_JK_mse5_lr,MCE_JK_mse6_lr,MCE_JK_mse7_lr,MCE_JK_mse8_lr,MCE_JK_mse9_lr,MCE_JK_mse10_lr)
+
+cumlogit <- rep(1:10,5)
+
+model <- c(rep("PO",10),rep("PPO",10),rep("CPO",10),rep("LCPO",10),rep("LR",10))
+
+category <- rep(11,50)
+
+effectsize <- rep("Small [1.10]", 50)
+
+truemod <- rep("Random PO [no violation]", 50)
+
+controlprob <- rep("Symmetric", 50)
+
+sampsize <- rep(10000, 50)
+
+relbias <- c(relbias_po1,relbias_po2,relbias_po3,relbias_po4,relbias_po5,relbias_po6,relbias_po7,relbias_po8,relbias_po9,relbias_po10,relbias_ppo1,relbias_ppo2,relbias_ppo3,relbias_ppo4,relbias_ppo5,relbias_ppo6,relbias_ppo7,relbias_ppo8,relbias_ppo9,relbias_ppo10,relbias_cpo1,relbias_cpo2,relbias_cpo3,relbias_cpo4,relbias_cpo5,relbias_cpo6,relbias_cpo7,relbias_cpo8,relbias_cpo9,relbias_cpo10,relbias_lcpo1,relbias_lcpo2,relbias_lcpo3,relbias_lcpo4,relbias_lcpo5,relbias_lcpo6,relbias_lcpo7,relbias_lcpo8,relbias_lcpo9,relbias_lcpo10,relbias_lr1, relbias_lr2, relbias_lr3, relbias_lr4, relbias_lr5, relbias_lr6, relbias_lr7, relbias_lr8, relbias_lr9, relbias_lr10)
+
+relbias_se <- c(MCE_JK_relbias1_po,MCE_JK_relbias2_po,MCE_JK_relbias3_po,MCE_JK_relbias4_po,MCE_JK_relbias5_po,MCE_JK_relbias6_po,MCE_JK_relbias7_po,MCE_JK_relbias8_po,MCE_JK_relbias9_po,MCE_JK_relbias10_po,MCE_JK_relbias1_ppo,MCE_JK_relbias2_ppo,MCE_JK_relbias3_ppo,MCE_JK_relbias4_ppo,MCE_JK_relbias5_ppo,MCE_JK_relbias6_ppo,MCE_JK_relbias7_ppo,MCE_JK_relbias8_ppo,MCE_JK_relbias9_ppo,MCE_JK_relbias10_ppo,MCE_JK_relbias1_cpo,MCE_JK_relbias2_cpo,MCE_JK_relbias3_cpo,MCE_JK_relbias4_cpo,MCE_JK_relbias5_cpo,MCE_JK_relbias6_cpo,MCE_JK_relbias7_cpo,MCE_JK_relbias8_cpo,MCE_JK_relbias9_cpo,MCE_JK_relbias10_cpo,MCE_JK_relbias1_lcpo,MCE_JK_relbias2_lcpo,MCE_JK_relbias3_lcpo,MCE_JK_relbias4_lcpo,MCE_JK_relbias5_lcpo,MCE_JK_relbias6_lcpo,MCE_JK_relbias7_lcpo,MCE_JK_relbias8_lcpo,MCE_JK_relbias9_lcpo,MCE_JK_relbias10_lcpo,MCE_JK_relbias1_lr,MCE_JK_relbias2_lr,MCE_JK_relbias3_lr,MCE_JK_relbias4_lr,MCE_JK_relbias5_lr,MCE_JK_relbias6_lr,MCE_JK_relbias7_lr,MCE_JK_relbias8_lr,MCE_JK_relbias9_lr,MCE_JK_relbias10_lr)
+
+results <- data.frame(bias = bias, bias_se = bias_se, relbias = relbias, relbias_se = relbias_se, coverage = coverage, coverage_se = coverage_se, mse = mse, mse_se = mse_se, cumlogit = cumlogit, model = model, category = category, effectsize = effectsize, truemod = truemod, controlprob = controlprob, sampsize = sampsize)
+
+save(results, file = "vlargen_sym_11cat_randompo_smalleff_none_results.Rdata")
+write.csv(results,file="G:/BACKUP/Chris/Project_2/Main_Simulations/Results/results_131.csv")
+
+```
